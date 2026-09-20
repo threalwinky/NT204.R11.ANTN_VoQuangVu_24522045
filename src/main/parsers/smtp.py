@@ -67,3 +67,44 @@ def parse_smtp_command(
     }
 
     return event
+
+def parse_smtp_response(
+    packet: Packet,
+    event: NormalizedIDSEvent,
+) -> NormalizedIDSEvent:
+
+    if not packet.haslayer(Raw):
+        return event
+
+    payload = bytes(packet[Raw].load)
+
+    text = payload.decode(
+        "utf-8",
+        errors="replace",
+    ).strip()
+
+    if not text:
+        return event
+
+    first_line = text.split("\r\n", 1)[0]
+
+    if len(first_line) < 3:
+        return event
+
+    status_code_text = first_line[:3]
+
+    if not status_code_text.isdigit():
+        return event
+
+    status_code = int(status_code_text)
+
+    message = first_line[3:].lstrip(" -")
+
+    event.application_protocol = "SMTP"
+    event.application_data = {
+        "type": "response",
+        "status_code": status_code,
+        "message": message,
+    }
+
+    return event
