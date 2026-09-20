@@ -1,0 +1,1 @@
+Raw Packet -> Network Parser -> Transport Parser -> Application Protocol Detector -> Application Protocol Parser -> Normalized IDS Event
