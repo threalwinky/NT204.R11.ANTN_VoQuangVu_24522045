@@ -20,3 +20,9 @@ parse_tcp(packet, event)
 detect_application_protocol(packet, event)
 
 print(event.to_dict())
+
+def test_detect_smtp_protocol():
+    assert event.transport_protocol == "TCP"
+    assert event.src_port == 50000
+    assert event.dst_port == 25
+    assert event.application_protocol == "SMTP"

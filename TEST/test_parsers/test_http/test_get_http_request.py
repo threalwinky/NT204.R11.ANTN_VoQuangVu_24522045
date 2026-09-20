@@ -33,3 +33,12 @@ detect_application_protocol(packet, event)
 parse_http_request(packet, event)
 
 print(event.to_dict())
+
+def test_get_http_request_parser():
+    assert event.application_protocol == "HTTP"
+    assert event.application_data["type"] == "request"
+    assert event.application_data["method"] == "GET"
+    assert event.application_data["uri"] == "/index.html"
+    assert event.application_data["version"] == "HTTP/1.1"
+    assert event.application_data["headers"]["Host"] == "example.com"
+    assert event.application_data["body"] == ""

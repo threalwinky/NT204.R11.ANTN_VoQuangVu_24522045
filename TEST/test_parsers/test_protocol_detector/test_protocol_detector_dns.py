@@ -24,3 +24,6 @@ parse_udp(packet, event)
 detect_application_protocol(packet, event)
 
 print(event.to_dict())
+
+def test_detect_dns_protocol():
+    assert event.application_protocol == "DNS"

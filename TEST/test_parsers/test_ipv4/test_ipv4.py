@@ -15,3 +15,8 @@ event = NormalizedIDSEvent(
 parse_ipv4(packet, event)
 
 print(event.to_dict())
+
+def test_ipv4_parser():
+    assert event.network_protocol == "IPv4"
+    assert event.src_ip == "192.168.1.10"
+    assert event.dst_ip == "8.8.8.8"

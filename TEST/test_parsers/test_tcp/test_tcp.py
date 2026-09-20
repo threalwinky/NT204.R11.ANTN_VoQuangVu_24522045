@@ -26,3 +26,13 @@ parse_ipv4(packet, event)
 parse_tcp(packet, event)
 
 print(event.to_dict())
+
+def test_tcp_parser():
+    assert event.network_protocol == "IPv4"
+    assert event.src_ip == "192.168.1.10"
+    assert event.dst_ip == "192.168.1.20"
+    assert event.transport_protocol == "TCP"
+    assert event.src_port == 50000
+    assert event.dst_port == 80
+    assert event.tcp_flags == "S"
+    assert event.payload_length == len(b"Hello World")

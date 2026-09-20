@@ -25,3 +25,12 @@ parse_ipv4(packet, event)
 parse_udp(packet, event)
 
 print(event.to_dict())
+
+def test_udp_parser():
+    assert event.network_protocol == "IPv4"
+    assert event.src_ip == "192.168.1.10"
+    assert event.dst_ip == "8.8.8.8"
+    assert event.transport_protocol == "UDP"
+    assert event.src_port == 53000
+    assert event.dst_port == 53
+    assert event.payload_length == len(b"hello")

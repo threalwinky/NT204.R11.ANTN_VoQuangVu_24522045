@@ -19,7 +19,7 @@ packet = (
             b"User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36 Edg/153.0.0.0\r\n"
             b"Content-Type: application/x-www-form-urlencoded\r\n"
             b"Content-Length: 27"
-            b"\r\n"
+            b"\r\n\r\n"
             b"username=admin&password=123"
         )
     )
@@ -36,3 +36,16 @@ detect_application_protocol(packet, event)
 parse_http_request(packet, event)
 
 print(event.to_dict())
+
+def test_post_http_request_parser():
+    assert event.application_protocol == "HTTP"
+    assert event.application_data["type"] == "request"
+    assert event.application_data["method"] == "POST"
+    assert event.application_data["uri"] == "/login"
+    assert event.application_data["version"] == "HTTP/1.1"
+    assert event.application_data["headers"]["Host"] == "example.com"
+    assert event.application_data["headers"]["Content-Type"] == (
+        "application/x-www-form-urlencoded"
+    )
+    assert event.application_data["headers"]["Content-Length"] == "27"
+    assert event.application_data["body"] == "username=admin&password=123"

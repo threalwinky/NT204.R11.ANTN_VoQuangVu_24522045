@@ -40,3 +40,13 @@ detect_application_protocol(packet, event)
 parse_http_response(packet, event)
 
 print(event.to_dict())
+
+def test_http_response_parser():
+    assert event.application_protocol == "HTTP"
+    assert event.application_data["type"] == "response"
+    assert event.application_data["version"] == "HTTP/1.1"
+    assert event.application_data["status_code"] == 200
+    assert event.application_data["reason"] == "OK"
+    assert event.application_data["headers"]["Content-Type"] == "text/plain"
+    assert event.application_data["headers"]["Content-Length"] == "5"
+    assert event.application_data["body"] == "Hello"

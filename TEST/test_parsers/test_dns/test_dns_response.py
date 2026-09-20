@@ -48,3 +48,12 @@ answer = event.application_data["answer"]
 
 print(event.to_dict())
 print(answer)
+
+def test_dns_response_parser():
+    assert event.application_protocol == "DNS"
+    assert event.application_data["type"] == "response"
+    assert answer["name"] == "example.com"
+    assert answer["record_type"] == "A"
+    assert answer["record_type_code"] == 1
+    assert answer["ttl"] == 300
+    assert answer["data"] == "93.184.216.34"

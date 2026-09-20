@@ -38,3 +38,10 @@ detect_application_protocol(packet, event)
 parse_dns_query(packet, event)
 
 print(event.to_dict())
+
+def test_dns_query_parser():
+    assert event.application_protocol == "DNS"
+    assert event.application_data["type"] == "query"
+    assert event.application_data["domain"] == "example.com"
+    assert event.application_data["query_type"] == "A"
+    assert event.application_data["query_type_code"] == 1

@@ -29,3 +29,6 @@ parse_tcp(packet, event)
 detect_application_protocol(packet, event)
 
 print(event.to_dict())
+
+def test_detect_http_protocol():
+    assert event.application_protocol == "HTTP"

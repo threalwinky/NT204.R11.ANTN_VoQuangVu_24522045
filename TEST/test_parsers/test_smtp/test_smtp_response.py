@@ -35,3 +35,9 @@ detect_application_protocol(packet, event)
 parse_smtp_response(packet, event)
 
 print(event.to_dict())
+
+def test_smtp_response_parser():
+    assert event.application_protocol == "SMTP"
+    assert event.application_data["type"] == "response"
+    assert event.application_data["status_code"] == 250
+    assert event.application_data["message"] == "OK"

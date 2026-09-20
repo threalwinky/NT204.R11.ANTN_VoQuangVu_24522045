@@ -35,3 +35,9 @@ detect_application_protocol(packet, event)
 parse_smtp_command(packet, event)
 
 print(event.to_dict())
+
+def test_smtp_command_parser():
+    assert event.application_protocol == "SMTP"
+    assert event.application_data["type"] == "command"
+    assert event.application_data["command"] == "EHLO"
+    assert event.application_data["argument"] == "example.com"
