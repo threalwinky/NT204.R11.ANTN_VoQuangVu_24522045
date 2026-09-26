@@ -1,8 +1,8 @@
 import argparse
 import json
 
-from main.capture import capture_live, read_pcap
-from main.logger import JSONLLogger
+from modules.capture import capture_live, read_pcap
+from modules.logger import JSONLLogger
 
 
 def print_event(event) -> None:

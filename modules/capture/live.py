@@ -3,8 +3,8 @@ from itertools import count
 
 from scapy.all import sniff
 
-from main.core import parse_packet
-from main.models import NormalizedIDSEvent
+from ..core import parse_packet
+from ..models import NormalizedIDSEvent
 
 
 def capture_live(

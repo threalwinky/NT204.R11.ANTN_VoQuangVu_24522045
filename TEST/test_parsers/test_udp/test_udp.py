@@ -1,8 +1,8 @@
 from scapy.layers.inet import IP, UDP
 from scapy.packet import Raw
 
-from main.models import NormalizedIDSEvent
-from main.parsers import parse_ipv4, parse_udp
+from modules.models import NormalizedIDSEvent
+from modules.parsers import parse_ipv4, parse_udp
 
 packet = (
     IP(

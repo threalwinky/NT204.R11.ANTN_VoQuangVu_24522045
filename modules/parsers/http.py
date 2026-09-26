@@ -1,6 +1,6 @@
 from scapy.packet import Packet, Raw
 
-from main.models import NormalizedIDSEvent
+from ..models import NormalizedIDSEvent
 
 HTTP_METHODS = {
     "GET",

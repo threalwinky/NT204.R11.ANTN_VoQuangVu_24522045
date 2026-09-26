@@ -1,4 +1,4 @@
-from main.models import NormalizedIDSEvent
+from modules.models import NormalizedIDSEvent
 
 event = NormalizedIDSEvent(
     packet_id=1,

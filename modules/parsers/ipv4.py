@@ -1,7 +1,7 @@
 from scapy.layers.inet import IP
 from scapy.packet import Packet
 
-from main.models import NormalizedIDSEvent
+from ..models import NormalizedIDSEvent
 
 def parse_ipv4(
     packet: Packet,

@@ -3,9 +3,9 @@ import time
 from scapy.layers.inet import TCP, UDP
 from scapy.packet import Packet
 
-from main.detector import detect_application_protocol
-from main.models import NormalizedIDSEvent
-from main.parsers import (
+from ..detector import detect_application_protocol
+from ..models import NormalizedIDSEvent
+from ..parsers import (
     parse_dns_query,
     parse_dns_response,
     parse_http_request,

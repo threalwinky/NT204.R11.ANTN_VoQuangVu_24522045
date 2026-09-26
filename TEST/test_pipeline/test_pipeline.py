@@ -1,7 +1,7 @@
 from scapy.layers.inet import IP, TCP
 from scapy.packet import Raw
 
-from main.core import parse_packet
+from modules.core import parse_packet
 
 packet = (
     IP(

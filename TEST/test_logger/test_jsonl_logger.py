@@ -1,7 +1,7 @@
 import json
 
-from main.logger import JSONLLogger
-from main.models import NormalizedIDSEvent
+from modules.logger import JSONLLogger
+from modules.models import NormalizedIDSEvent
 
 
 def test_jsonl_logger(tmp_path):

@@ -1,7 +1,7 @@
 from scapy.layers.inet import UDP
 from scapy.packet import Packet
 
-from main.models import NormalizedIDSEvent
+from ..models import NormalizedIDSEvent
 
 def parse_udp(
     packet: Packet,

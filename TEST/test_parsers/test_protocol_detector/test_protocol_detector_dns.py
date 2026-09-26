@@ -1,9 +1,9 @@
 from scapy.layers.dns import DNS, DNSQR
 from scapy.layers.inet import IP, UDP
 
-from main.detector import detect_application_protocol
-from main.models import NormalizedIDSEvent
-from main.parsers import parse_ipv4, parse_udp
+from modules.detector import detect_application_protocol
+from modules.models import NormalizedIDSEvent
+from modules.parsers import parse_ipv4, parse_udp
 
 packet = (
     IP(src="192.168.1.10", dst="8.8.8.8")

@@ -4,7 +4,7 @@ from scapy.layers.inet import IP, TCP
 from scapy.packet import Raw
 from scapy.utils import wrpcap
 
-from main.capture import read_pcap
+from modules.capture import read_pcap
 
 pcap_path = Path(__file__).parent / "test.pcap"
 

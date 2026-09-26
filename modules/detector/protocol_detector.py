@@ -1,7 +1,7 @@
 from scapy.layers.dns import DNS
 from scapy.packet import Packet, Raw
 
-from main.models import NormalizedIDSEvent
+from ..models import NormalizedIDSEvent
 
 HTTP_METHODS = (
     b"GET ",

@@ -3,8 +3,8 @@ from pathlib import Path
 
 from scapy.utils import PcapReader
 
-from main.core import parse_packet
-from main.models import NormalizedIDSEvent
+from ..core import parse_packet
+from ..models import NormalizedIDSEvent
 
 def read_pcap(
     path: str | Path,

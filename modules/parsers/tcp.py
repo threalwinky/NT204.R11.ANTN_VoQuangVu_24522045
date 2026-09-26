@@ -1,7 +1,7 @@
 from scapy.layers.inet import TCP
 from scapy.packet import Packet
 
-from main.models import NormalizedIDSEvent
+from ..models import NormalizedIDSEvent
 
 def parse_tcp(
     packet: Packet,

@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 from typing import TextIO
 
-from main.models import NormalizedIDSEvent
+from ..models import NormalizedIDSEvent
 
 class JSONLLogger:
 

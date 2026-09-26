@@ -1,6 +1,6 @@
 from scapy.layers.inet import IP
-from main.models import NormalizedIDSEvent
-from main.parsers import parse_ipv4
+from modules.models import NormalizedIDSEvent
+from modules.parsers import parse_ipv4
 
 packet = IP(
     src="192.168.1.10",

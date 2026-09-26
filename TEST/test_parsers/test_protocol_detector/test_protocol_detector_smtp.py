@@ -1,9 +1,9 @@
 from scapy.layers.inet import IP, TCP
 from scapy.packet import Raw
 
-from main.detector import detect_application_protocol
-from main.models import NormalizedIDSEvent
-from main.parsers import parse_tcp
+from modules.detector import detect_application_protocol
+from modules.models import NormalizedIDSEvent
+from modules.parsers import parse_tcp
 
 packet = (
     IP(src="10.0.0.1", dst="10.0.0.2")
