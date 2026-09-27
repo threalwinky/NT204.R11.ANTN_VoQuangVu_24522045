@@ -1,5 +1,6 @@
 from scapy.layers.dns import DNS, DNSQR
-from scapy.layers.inet import IP, TCP, UDP
+from scapy.layers.inet import ICMP, IP, TCP, UDP
+from scapy.layers.l2 import ARP, Ether
 from scapy.packet import Raw
 
 import modules.core.pipeline as pipeline
@@ -48,6 +49,16 @@ dns_packet = (
     )
 )
 
+arp_packet = Ether() / ARP()
+
+icmp_packet = (
+    IP(
+        src="192.168.1.50",
+        dst="192.168.1.60",
+    )
+    / ICMP()
+)
+
 def test_parse_packet_pipeline():
     assert event.packet_id == 1
     assert event.network_protocol == "IPv4"
@@ -84,3 +95,33 @@ def test_parse_packet_records_error(monkeypatch):
     assert dns_event.network_protocol == "IPv4"
     assert dns_event.transport_protocol == "UDP"
     assert dns_event.application_protocol == "DNS"
+
+def test_parse_packet_marks_unknown():
+
+    arp_event = parse_packet(arp_packet, packet_id=3)
+    icmp_event = parse_packet(icmp_packet, packet_id=4)
+
+    assert event.status == "OK"
+    assert event.error is None
+
+    assert arp_event.status == "UNKNOWN"
+    assert arp_event.error is None
+
+    assert icmp_event.status == "UNKNOWN"
+    assert icmp_event.network_protocol == "IPv4"
+
+def test_parse_packet_error_beats_unknown(monkeypatch):
+
+    def fail_parser(packet, event):
+        raise TypeError("broken network parser")
+
+    monkeypatch.setattr(
+        pipeline,
+        "parse_ipv4",
+        fail_parser,
+    )
+
+    arp_event = parse_packet(arp_packet, packet_id=5)
+
+    assert arp_event.status == "ERROR"
+    assert arp_event.error == "TypeError: broken network parser"

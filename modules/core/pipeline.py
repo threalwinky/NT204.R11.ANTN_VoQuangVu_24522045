@@ -26,6 +26,17 @@ def _record_parse_error(
     event.error = f"{type(error).__name__}: {error}"
 
 
+def _mark_unknown(
+    event: NormalizedIDSEvent,
+) -> None:
+
+    if event.status != "OK":
+        return
+
+    if event.transport_protocol is None and event.application_protocol is None:
+        event.status = "UNKNOWN"
+
+
 def parse_packet(
     packet: Packet,
     packet_id: int,
@@ -76,5 +87,7 @@ def parse_packet(
 
     except Exception as error:
         _record_parse_error(event, error)
+
+    _mark_unknown(event)
 
     return event
