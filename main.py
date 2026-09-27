@@ -1,8 +1,13 @@
 import argparse
 import json
+from contextlib import ExitStack
+from datetime import datetime
+from pathlib import Path
 
 from modules.capture import capture_live, read_pcap
 from modules.logger import JSONLLogger
+
+OUTPUT_DIR = Path("files/output")
 
 
 def print_event(event) -> None:
@@ -31,33 +36,32 @@ def main():
 
     parser.add_argument(
         "--output",
-        default="events.jsonl",
-        help="JSONL output file",
+        choices=["live", "file"],
+        default="live",
+        help="live: print events to stdout (default), "
+             "file: write events to files/output/event_<datetime>.jsonl",
     )
 
     args = parser.parse_args()
 
-    with JSONLLogger(args.output) as logger:
-
-        def handle_event(event):
-            logger.write(event)
-            print_event(event)
+    with ExitStack() as stack:
+        if args.output == "file":
+            output_path = OUTPUT_DIR / f"event_{datetime.now():%Y%m%d_%H%M%S}.jsonl"
+            emit = stack.enter_context(JSONLLogger(output_path)).write
+            print(f"Writing events to {output_path}")
+        else:
+            emit = print_event
 
         if args.interface:
             print(f"Sniffing on {args.interface}...")
-            print(f"Writing events to {args.output}")
-
             capture_live(
                 interface=args.interface,
-                on_event=handle_event,
+                on_event=emit,
             )
-
-        elif args.pcap:
+        else:
             print(f"Reading from {args.pcap}...")
-            print(f"Writing events to {args.output}")
-
             for event in read_pcap(args.pcap):
-                handle_event(event)
+                emit(event)
 
 
 if __name__ == "__main__":
