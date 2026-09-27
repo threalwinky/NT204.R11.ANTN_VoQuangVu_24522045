@@ -1,6 +1,8 @@
-from scapy.layers.inet import IP, TCP
+from scapy.layers.dns import DNS, DNSQR
+from scapy.layers.inet import IP, TCP, UDP
 from scapy.packet import Raw
 
+import modules.core.pipeline as pipeline
 from modules.core import parse_packet
 
 packet = (
@@ -29,6 +31,23 @@ event = parse_packet(
 
 print(event.to_dict())
 
+dns_packet = (
+    IP(
+        src="192.168.1.30",
+        dst="192.168.1.40",
+    )
+    / UDP(
+        sport=53000,
+        dport=53,
+    )
+    / DNS(
+        qr=0,
+    )
+    / DNSQR(
+        qname="example.com",
+    )
+)
+
 def test_parse_packet_pipeline():
     assert event.packet_id == 1
     assert event.network_protocol == "IPv4"
@@ -43,3 +62,25 @@ def test_parse_packet_pipeline():
     assert event.application_data["method"] == "GET"
     assert event.application_data["uri"] == "/index.html"
     assert event.application_data["headers"]["Host"] == "example.com"
+
+def test_parse_packet_records_error(monkeypatch):
+
+    def fail_parser(packet, event):
+        raise ValueError("broken parser")
+
+    monkeypatch.setattr(
+        pipeline,
+        "parse_dns_query",
+        fail_parser,
+    )
+
+    dns_event = parse_packet(
+        dns_packet,
+        packet_id=2,
+    )
+
+    assert dns_event.status == "ERROR"
+    assert dns_event.error == "ValueError: broken parser"
+    assert dns_event.network_protocol == "IPv4"
+    assert dns_event.transport_protocol == "UDP"
+    assert dns_event.application_protocol == "DNS"

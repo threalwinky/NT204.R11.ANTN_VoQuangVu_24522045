@@ -17,6 +17,15 @@ from ..parsers import (
     parse_udp,
 )
 
+def _record_parse_error(
+    event: NormalizedIDSEvent,
+    error: Exception,
+) -> None:
+
+    event.status = "ERROR"
+    event.error = f"{type(error).__name__}: {error}"
+
+
 def parse_packet(
     packet: Packet,
     packet_id: int,
@@ -34,30 +43,38 @@ def parse_packet(
         timestamp=timestamp,
     )
 
-    # Network layer
-    parse_ipv4(packet, event)
+    try:
+        # Network layer
+        parse_ipv4(packet, event)
 
-    # Transport layer
-    if packet.haslayer(TCP):
-        parse_tcp(packet, event)
+        # Transport layer
+        if packet.haslayer(TCP):
+            parse_tcp(packet, event)
 
-    elif packet.haslayer(UDP):
-        parse_udp(packet, event)
+        elif packet.haslayer(UDP):
+            parse_udp(packet, event)
 
-    # Application protocol detection
-    detect_application_protocol(packet, event)
+        # Application protocol detection
+        detect_application_protocol(packet, event)
 
-    # Application layer parsing
-    if event.application_protocol == "HTTP":
-        parse_http_request(packet, event)
-        parse_http_response(packet, event)
+    except Exception as error:
+        _record_parse_error(event, error)
 
-    elif event.application_protocol == "DNS":
-        parse_dns_query(packet, event)
-        parse_dns_response(packet, event)
+    try:
+        # Application layer parsing
+        if event.application_protocol == "HTTP":
+            parse_http_request(packet, event)
+            parse_http_response(packet, event)
 
-    elif event.application_protocol == "SMTP":
-        parse_smtp_command(packet, event)
-        parse_smtp_response(packet, event)
+        elif event.application_protocol == "DNS":
+            parse_dns_query(packet, event)
+            parse_dns_response(packet, event)
+
+        elif event.application_protocol == "SMTP":
+            parse_smtp_command(packet, event)
+            parse_smtp_response(packet, event)
+
+    except Exception as error:
+        _record_parse_error(event, error)
 
     return event
