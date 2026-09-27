@@ -20,19 +20,26 @@ def print_event(event) -> None:
 
 
 def run_capture(args, emit) -> None:
+
+    def handle(event) -> None:
+        if args.skip_unknown and event.status == "UNKNOWN":
+            return
+
+        emit(event)
+
     if args.interface:
         print(f"Sniffing on {args.interface}...")
 
         capture_live(
             interface=args.interface,
-            on_event=emit,
+            on_event=handle,
         )
 
     else:
         print(f"Reading from {args.pcap}...")
 
         for event in read_pcap(args.pcap):
-            emit(event)
+            handle(event)
 
 
 def main():
@@ -56,6 +63,12 @@ def main():
         default="live",
         help="live: print events to stdout (default), "
              "file: write events to files/output/event_<datetime>.jsonl",
+    )
+
+    parser.add_argument(
+        "--skip-unknown",
+        action="store_true",
+        help="skip events with UNKNOWN status",
     )
 
     args = parser.parse_args()
