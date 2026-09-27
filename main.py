@@ -1,10 +1,10 @@
 import argparse
 import json
-from contextlib import ExitStack
+import sys
 from datetime import datetime
 from pathlib import Path
 
-from modules.capture import capture_live, read_pcap
+from modules.capture import CaptureError, capture_live, read_pcap
 from modules.logger import JSONLLogger
 
 OUTPUT_DIR = Path("files/output")
@@ -17,6 +17,22 @@ def print_event(event) -> None:
             ensure_ascii=False,
         )
     )
+
+
+def run_capture(args, emit) -> None:
+    if args.interface:
+        print(f"Sniffing on {args.interface}...")
+
+        capture_live(
+            interface=args.interface,
+            on_event=emit,
+        )
+
+    else:
+        print(f"Reading from {args.pcap}...")
+
+        for event in read_pcap(args.pcap):
+            emit(event)
 
 
 def main():
@@ -36,7 +52,7 @@ def main():
 
     parser.add_argument(
         "--output",
-        choices=["live", "file"],
+        choices=("live", "file"),
         default="live",
         help="live: print events to stdout (default), "
              "file: write events to files/output/event_<datetime>.jsonl",
@@ -44,24 +60,25 @@ def main():
 
     args = parser.parse_args()
 
-    with ExitStack() as stack:
+    try:
         if args.output == "file":
             output_path = OUTPUT_DIR / f"event_{datetime.now():%Y%m%d_%H%M%S}.jsonl"
-            emit = stack.enter_context(JSONLLogger(output_path)).write
-            print(f"Writing events to {output_path}")
-        else:
-            emit = print_event
 
-        if args.interface:
-            print(f"Sniffing on {args.interface}...")
-            capture_live(
-                interface=args.interface,
-                on_event=emit,
-            )
+            with JSONLLogger(output_path) as logger:
+                print(f"Writing events to {output_path}")
+
+                run_capture(args, logger.write)
+
         else:
-            print(f"Reading from {args.pcap}...")
-            for event in read_pcap(args.pcap):
-                emit(event)
+            run_capture(args, print_event)
+
+    except CaptureError as error:
+        print(
+            f"{parser.prog}: error: {error}",
+            file=sys.stderr,
+        )
+
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":
