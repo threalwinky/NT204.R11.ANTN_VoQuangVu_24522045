@@ -1,0 +1,14 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/winky/workspace/learning/NT204.R11.ANTN/homework/NT204.R11.ANTN_VoQuangVu_24522045
+plugins: typeguard-4.4.4
+collecting ... collected 5 items
+
+TEST/test_decoder/test_t02_html_entities.py::test_t02_html_entity_decoding[POST /preview HTTP/1.1-50000-80-request] PASSED [ 20%]
+TEST/test_decoder/test_t02_html_entities.py::test_t02_html_entity_decoding[HTTP/1.1 200 OK-80-50000-response] PASSED [ 40%]
+TEST/test_decoder/test_t02_html_entities.py::test_t02_unsupported_content_type PASSED [ 60%]
+TEST/test_decoder/test_t02_html_entities.py::test_t02_body_size_limit PASSED [ 80%]
+TEST/test_decoder/test_t02_html_entities.py::test_t02_missing_body PASSED [100%]
+
+============================== 5 passed in 0.44s ===============================
