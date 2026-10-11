@@ -1,2 +1,0 @@
-class CaptureError(RuntimeError):
-    pass
