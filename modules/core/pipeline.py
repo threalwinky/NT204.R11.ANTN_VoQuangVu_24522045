@@ -3,7 +3,7 @@ import time
 from scapy.layers.inet import TCP, UDP
 from scapy.packet import Packet
 
-from ..decoder import decode_http_form, decode_http_uri
+from ..decoder import decode_html_entities, decode_http_form, decode_http_uri
 from ..detector import detect_application_protocol
 from ..models import NormalizedIDSEvent
 from ..parsers import (
@@ -93,6 +93,7 @@ def parse_packet(
     try:
         decode_http_uri(event)
         decode_http_form(event)
+        decode_html_entities(event)
     except Exception as error:
         _record_parse_error(event, error)
 
