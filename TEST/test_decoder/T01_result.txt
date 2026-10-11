@@ -1,0 +1,11 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/winky/workspace/learning/NT204.R11.ANTN/homework/NT204.R11.ANTN_VoQuangVu_24522045
+plugins: typeguard-4.4.4
+collecting ... collected 2 items
+
+TEST/test_decoder/test_t01_http_url.py::test_t01_http_url_decoding[/search?q=%27%20OR%201%3D1-/search?q=' OR 1=1] PASSED [ 50%]
+TEST/test_decoder/test_t01_http_url.py::test_t01_http_url_decoding[/user/%E4%BD%A0%E5%A5%BD-/user/\u4f60\u597d] PASSED [100%]
+
+============================== 2 passed in 0.45s ===============================
