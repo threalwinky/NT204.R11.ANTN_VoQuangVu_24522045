@@ -1,0 +1,15 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/winky/workspace/learning/NT204.R11.ANTN/homework/NT204.R11.ANTN_VoQuangVu_24522045
+plugins: typeguard-4.4.4
+collecting ... collected 6 items
+
+TEST/test_decoder/test_t03_smtp_mime.py::test_t03_encoded_body[base64-b64encode] PASSED [ 16%]
+TEST/test_decoder/test_t03_smtp_mime.py::test_t03_encoded_body[quoted-printable-encodestring] PASSED [ 33%]
+TEST/test_decoder/test_t03_smtp_mime.py::test_t03_multipart PASSED       [ 50%]
+TEST/test_decoder/test_t03_smtp_mime.py::test_t03_invalid_base64 PASSED  [ 66%]
+TEST/test_decoder/test_t03_smtp_mime.py::test_t03_size_limit PASSED      [ 83%]
+TEST/test_decoder/test_t03_smtp_mime.py::test_t03_unencoded_body PASSED  [100%]
+
+============================== 6 passed in 0.44s ===============================
