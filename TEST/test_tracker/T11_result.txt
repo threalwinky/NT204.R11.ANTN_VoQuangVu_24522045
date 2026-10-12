@@ -14,4 +14,4 @@ TEST/test_tracker/test_t11_concurrent_flows.py::test_t11_reverse_first_packet_is
 TEST/test_tracker/test_t11_concurrent_flows.py::test_t11_concurrent_flows_from_pcap PASSED [ 87%]
 TEST/test_tracker/test_t11_concurrent_flows.py::test_t11_separate_capture_sessions PASSED [100%]
 
-============================== 8 passed in 0.74s ===============================
+============================== 8 passed in 0.76s ===============================

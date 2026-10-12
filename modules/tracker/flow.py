@@ -21,9 +21,56 @@ class FlowRecord:
 
 
 class FlowTracker:
-    def __init__(self):
+    def __init__(
+        self,
+        tcp_timeout: float = 300.0,
+        udp_timeout: float = 60.0,
+    ):
+        for name, value in (
+            ("tcp_timeout", tcp_timeout),
+            ("udp_timeout", udp_timeout),
+        ):
+            if (
+                type(value) not in (int, float)
+                or not isfinite(value)
+                or value <= 0
+            ):
+                raise ValueError(
+                    f"{name} must be a positive finite number"
+                )
+
+        self.tcp_timeout = float(tcp_timeout)
+        self.udp_timeout = float(udp_timeout)
         self.flows = {}
         self._next_flow_number = 1
+
+    def expire_flows(
+        self,
+        now: float,
+    ) -> list[FlowRecord]:
+
+        if (
+            type(now) not in (int, float)
+            or not isfinite(now)
+            or now < 0
+        ):
+            raise ValueError(
+                "now must be a nonnegative finite timestamp"
+            )
+
+        expired = []
+
+        for key, flow in list(self.flows.items()):
+            timeout = (
+                self.tcp_timeout
+                if flow.protocol == "TCP"
+                else self.udp_timeout
+            )
+
+            if float(now) - flow.last_seen >= timeout:
+                expired.append(self.flows.pop(key))
+
+        return expired
 
     def _update_tcp_state(
         self,
@@ -118,6 +165,8 @@ class FlowTracker:
             or event.timestamp < 0
         ):
             return event
+
+        self.expire_flows(float(event.timestamp))
 
         source = (event.src_ip, event.src_port)
         destination = (event.dst_ip, event.dst_port)
