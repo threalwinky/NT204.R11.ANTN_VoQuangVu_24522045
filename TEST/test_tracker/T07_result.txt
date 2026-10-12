@@ -1,0 +1,16 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/winky/workspace/learning/NT204.R11.ANTN/homework/NT204.R11.ANTN_VoQuangVu_24522045
+plugins: typeguard-4.4.4
+collecting ... collected 7 items
+
+TEST/test_tracker/test_t07_tcp_handshake.py::test_t07_three_way_handshake PASSED [ 14%]
+TEST/test_tracker/test_t07_tcp_handshake.py::test_t07_ack_before_syn_ack PASSED [ 28%]
+TEST/test_tracker/test_t07_tcp_handshake.py::test_t07_syn_retransmission PASSED [ 42%]
+TEST/test_tracker/test_t07_tcp_handshake.py::test_t07_syn_ack_wrong_direction PASSED [ 57%]
+TEST/test_tracker/test_t07_tcp_handshake.py::test_t07_reset_during_handshake PASSED [ 71%]
+TEST/test_tracker/test_t07_tcp_handshake.py::test_t07_handshake_from_pcap PASSED [ 85%]
+TEST/test_tracker/test_t07_tcp_handshake.py::test_t07_optional_tracker PASSED [100%]
+
+============================== 7 passed in 0.90s ===============================
