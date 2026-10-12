@@ -1,0 +1,19 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/winky/workspace/learning/NT204.R11.ANTN/homework/NT204.R11.ANTN_VoQuangVu_24522045
+plugins: typeguard-4.4.4
+collecting ... collected 10 items
+
+TEST/test_tracker/test_live_idle_expiration.py::test_live_udp_expires_without_new_packets PASSED [ 10%]
+TEST/test_tracker/test_live_idle_expiration.py::test_live_tcp_expires_with_state_and_flags PASSED [ 20%]
+TEST/test_tracker/test_live_idle_expiration.py::test_live_does_not_expire_before_timeout PASSED [ 30%]
+TEST/test_tracker/test_live_idle_expiration.py::test_live_expires_multiple_udp_flows PASSED [ 40%]
+TEST/test_tracker/test_live_idle_expiration.py::test_live_tcp_udp_timeouts_are_independent PASSED [ 50%]
+TEST/test_tracker/test_live_idle_expiration.py::test_live_no_packets_no_expiration PASSED [ 60%]
+TEST/test_tracker/test_live_idle_expiration.py::test_live_worker_stops_after_capture_returns PASSED [ 70%]
+TEST/test_tracker/test_live_idle_expiration.py::test_live_worker_stops_on_sniff_error PASSED [ 80%]
+TEST/test_tracker/test_live_idle_expiration.py::test_live_new_packet_refreshes_idle_timeout PASSED [ 90%]
+TEST/test_tracker/test_live_idle_expiration.py::test_live_idle_expiration_jsonl_output PASSED [100%]
+
+============================== 10 passed in 3.64s ==============================
