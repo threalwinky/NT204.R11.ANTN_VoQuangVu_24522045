@@ -15,6 +15,8 @@ def capture_live(
     interface: str,
     on_event: Callable[[NormalizedIDSEvent], None],
     on_flow_expired: Callable[[dict[str, object]], None] | None = None,
+    tcp_timeout: float = 300.0,
+    udp_timeout: float = 60.0,
 ) -> None:
     
     try:
@@ -23,7 +25,11 @@ def capture_live(
         raise CaptureError(f"interface {interface!r} not found") from error
 
     packet_ids = count(start=1)
-    tracker = FlowTracker(on_flow_expired=on_flow_expired)
+    tracker = FlowTracker(
+        tcp_timeout=tcp_timeout,
+        udp_timeout=udp_timeout,
+        on_flow_expired=on_flow_expired,
+    )
 
     def handle_packet(packet) -> None:
         packet_id = next(packet_ids)

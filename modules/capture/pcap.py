@@ -14,10 +14,16 @@ def read_pcap(
     path: str | Path,
     on_flow_expired: Callable[[dict[str, object]], None] | None = None,
     on_flow_finalized: Callable[[dict[str, object]], None] | None = None,
+    tcp_timeout: float = 300.0,
+    udp_timeout: float = 60.0,
 ) -> Iterator[NormalizedIDSEvent]:
     
     source = Path(path)
-    tracker = FlowTracker(on_flow_expired=on_flow_expired)
+    tracker = FlowTracker(
+        tcp_timeout=tcp_timeout,
+        udp_timeout=udp_timeout,
+        on_flow_expired=on_flow_expired,
+    )
 
     try:
         with PcapReader(str(source)) as reader:

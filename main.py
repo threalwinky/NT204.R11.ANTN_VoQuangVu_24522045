@@ -1,6 +1,7 @@
 import argparse
 import json
 import sys
+from math import isfinite
 from datetime import datetime
 from pathlib import Path
 
@@ -17,6 +18,8 @@ def print_event(event) -> None:
 
 
 def run_capture(args, emit) -> None:
+    tcp_timeout = getattr(args, "tcp_timeout", 300.0)
+    udp_timeout = getattr(args, "udp_timeout", 60.0)
 
     def handle(event) -> None:
         apply_processing_policy(
@@ -38,6 +41,8 @@ def run_capture(args, emit) -> None:
             interface=args.interface,
             on_event=handle,
             on_flow_expired=emit,
+            tcp_timeout=tcp_timeout,
+            udp_timeout=udp_timeout,
         )
 
     else:
@@ -46,6 +51,8 @@ def run_capture(args, emit) -> None:
         for event in read_pcap(
             args.pcap,
             on_flow_expired=emit,
+            tcp_timeout=tcp_timeout,
+            udp_timeout=udp_timeout,
             on_flow_finalized=(
                 emit if getattr(args, "emit_flow_summaries", False)
                 else None
@@ -96,12 +103,35 @@ def main():
     )
 
     parser.add_argument(
+        "--tcp-timeout",
+        type=float,
+        default=300.0,
+        help="TCP idle timeout in seconds",
+    )
+
+    parser.add_argument(
+        "--udp-timeout",
+        type=float,
+        default=60.0,
+        help="UDP idle timeout in seconds",
+    )
+
+    parser.add_argument(
         "--emit-flow-summaries",
         action="store_true",
         help="Export remaining flow summaries at the end of a PCAP",
     )
 
     args = parser.parse_args()
+
+    for name in ("tcp_timeout", "udp_timeout"):
+        value = getattr(args, name)
+
+        if not isfinite(value) or value <= 0:
+            option = name.replace("_", "-")
+            parser.error(
+                f"--{option} must be a positive finite number"
+            )
 
     if args.interface and args.emit_flow_summaries:
         parser.error("--emit-flow-summaries requires --pcap")
