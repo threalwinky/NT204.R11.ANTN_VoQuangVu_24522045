@@ -24,6 +24,11 @@ class FlowRecord:
     backward_packets: int = 0
     forward_bytes: int = 0
     backward_bytes: int = 0
+    application_protocol: str | None = None
+    syn_count: int = 0
+    ack_count: int = 0
+    fin_count: int = 0
+    rst_count: int = 0
 
     @property
     def duration(self) -> float:
@@ -33,6 +38,7 @@ class FlowRecord:
         return {
             "flow_id": self.flow_id,
             "transport_protocol": self.protocol,
+            "application_protocol": self.application_protocol,
             "initiator": {
                 "ip": self.initiator[0],
                 "port": self.initiator[1],
@@ -42,6 +48,7 @@ class FlowRecord:
                 "port": self.responder[1],
             },
             "first_seen": self.first_seen,
+            "start_time": self.first_seen,
             "last_seen": self.last_seen,
             "duration": self.duration,
             "tcp_state": self.tcp_state,
@@ -51,6 +58,10 @@ class FlowRecord:
             "backward_packets": self.backward_packets,
             "forward_bytes": self.forward_bytes,
             "backward_bytes": self.backward_bytes,
+            "SYN_count": self.syn_count,
+            "ACK_count": self.ack_count,
+            "FIN_count": self.fin_count,
+            "RST_count": self.rst_count,
         }
 
 
@@ -154,6 +165,10 @@ class FlowTracker:
                 flow.backward_bytes for flow in flows
             ),
             "tcp_states": states,
+            "SYN_count": sum(flow.syn_count for flow in flows),
+            "ACK_count": sum(flow.ack_count for flow in flows),
+            "FIN_count": sum(flow.fin_count for flow in flows),
+            "RST_count": sum(flow.rst_count for flow in flows),
         }
 
     def _update_tcp_state(
@@ -287,6 +302,24 @@ class FlowTracker:
             event.flow_direction = "backward"
 
         self._update_tcp_state(flow, event)
+
+        if (
+            isinstance(event.application_protocol, str)
+            and event.application_protocol
+        ):
+            flow.application_protocol = event.application_protocol
+
+        if flow.protocol == "TCP":
+            flags = (
+                event.tcp_flags
+                if isinstance(event.tcp_flags, str)
+                else ""
+            )
+
+            flow.syn_count += int("S" in flags)
+            flow.ack_count += int("A" in flags)
+            flow.fin_count += int("F" in flags)
+            flow.rst_count += int("R" in flags)
 
         payload_bytes = (
             event.payload_length
