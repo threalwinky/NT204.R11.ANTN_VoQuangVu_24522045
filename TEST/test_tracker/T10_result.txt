@@ -1,0 +1,18 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/winky/workspace/learning/NT204.R11.ANTN/homework/NT204.R11.ANTN_VoQuangVu_24522045
+plugins: typeguard-4.4.4
+collecting ... collected 9 items
+
+TEST/test_tracker/test_t10_udp_dns_flow.py::test_t10_dns_query_response_same_flow PASSED [ 11%]
+TEST/test_tracker/test_t10_udp_dns_flow.py::test_t10_dns_query_response_content PASSED [ 22%]
+TEST/test_tracker/test_t10_udp_dns_flow.py::test_t10_multiple_dns_packets_same_flow PASSED [ 33%]
+TEST/test_tracker/test_t10_udp_dns_flow.py::test_t10_different_udp_client_ports PASSED [ 44%]
+TEST/test_tracker/test_t10_udp_dns_flow.py::test_t10_response_first_defines_direction PASSED [ 55%]
+TEST/test_tracker/test_t10_udp_dns_flow.py::test_t10_udp_without_dns PASSED [ 66%]
+TEST/test_tracker/test_t10_udp_dns_flow.py::test_t10_dns_response_without_answer PASSED [ 77%]
+TEST/test_tracker/test_t10_udp_dns_flow.py::test_t10_tcp_udp_separate_flows PASSED [ 88%]
+TEST/test_tracker/test_t10_udp_dns_flow.py::test_t10_dns_pcap PASSED     [100%]
+
+============================== 9 passed in 0.78s ===============================
