@@ -1,0 +1,19 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/winky/workspace/learning/NT204.R11.ANTN/homework/NT204.R11.ANTN_VoQuangVu_24522045
+plugins: typeguard-4.4.4
+collecting ... collected 10 items
+
+TEST/test_preprocessor/test_t06_missing_fields.py::test_t06_http_request_missing_fields PASSED [ 10%]
+TEST/test_preprocessor/test_t06_missing_fields.py::test_t06_http_response_missing_status_code PASSED [ 20%]
+TEST/test_preprocessor/test_t06_missing_fields.py::test_t06_dns_missing_domain PASSED [ 30%]
+TEST/test_preprocessor/test_t06_missing_fields.py::test_t06_smtp_optional_fields PASSED [ 40%]
+TEST/test_preprocessor/test_t06_missing_fields.py::test_t06_mutable_defaults_are_independent PASSED [ 50%]
+TEST/test_preprocessor/test_t06_missing_fields.py::test_t06_missing_application_type PASSED [ 60%]
+TEST/test_preprocessor/test_t06_missing_fields.py::test_t06_invalid_status_is_preserved PASSED [ 70%]
+TEST/test_preprocessor/test_t06_missing_fields.py::test_t06_partial_and_unknown_skip_policy PASSED [ 80%]
+TEST/test_preprocessor/test_t06_missing_fields.py::test_t06_unparsed_http_packet PASSED [ 90%]
+TEST/test_preprocessor/test_t06_missing_fields.py::test_t06_cli_skip_policy PASSED [100%]
+
+============================== 10 passed in 0.81s ==============================
