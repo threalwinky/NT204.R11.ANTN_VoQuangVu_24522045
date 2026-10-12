@@ -1,0 +1,20 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/winky/workspace/learning/NT204.R11.ANTN/homework/NT204.R11.ANTN_VoQuangVu_24522045
+plugins: typeguard-4.4.4
+collecting ... collected 11 items
+
+TEST/test_tracker/test_pcap_flow_finalization.py::test_finalization_empty_tracker PASSED [  9%]
+TEST/test_tracker/test_pcap_flow_finalization.py::test_finalization_preserves_statistics PASSED [ 18%]
+TEST/test_tracker/test_pcap_flow_finalization.py::test_reader_finalizes_remaining_flow PASSED [ 27%]
+TEST/test_tracker/test_pcap_flow_finalization.py::test_reader_callback_order PASSED [ 36%]
+TEST/test_tracker/test_pcap_flow_finalization.py::test_reader_without_finalization_callback PASSED [ 45%]
+TEST/test_tracker/test_pcap_flow_finalization.py::test_single_flow_summary PASSED [ 54%]
+TEST/test_tracker/test_pcap_flow_finalization.py::test_cli_stdout_with_summaries PASSED [ 63%]
+TEST/test_tracker/test_pcap_flow_finalization.py::test_cli_jsonl_with_summaries PASSED [ 72%]
+TEST/test_tracker/test_pcap_flow_finalization.py::test_cli_default_backward_compatibility PASSED [ 81%]
+TEST/test_tracker/test_pcap_flow_finalization.py::test_cli_rejects_live_summary_option PASSED [ 90%]
+TEST/test_tracker/test_pcap_flow_finalization.py::test_skip_partial_still_exports_summaries PASSED [100%]
+
+============================== 11 passed in 4.25s ==============================
