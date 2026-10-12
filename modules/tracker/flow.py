@@ -131,6 +131,18 @@ class FlowTracker:
 
         return expired
 
+    def finalize_flows(self) -> list[dict[str, object]]:
+        finalized = []
+
+        for key, flow in list(self.flows.items()):
+            summary = flow.to_dict()
+            summary["record_type"] = "flow_summary"
+            summary["end_reason"] = "capture_end"
+            finalized.append(summary)
+            del self.flows[key]
+
+        return finalized
+
     def get_flow_stats(
         self,
         flow_id: str,

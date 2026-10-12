@@ -13,6 +13,7 @@ from .errors import CaptureError
 def read_pcap(
     path: str | Path,
     on_flow_expired: Callable[[dict[str, object]], None] | None = None,
+    on_flow_finalized: Callable[[dict[str, object]], None] | None = None,
 ) -> Iterator[NormalizedIDSEvent]:
     
     source = Path(path)
@@ -26,5 +27,10 @@ def read_pcap(
                     packet_id=packet_id,
                     tracker=tracker,
                 )
+
+        if on_flow_finalized is not None:
+            for summary in tracker.finalize_flows():
+                on_flow_finalized(summary)
+
     except (OSError, Scapy_Exception) as error:
         raise CaptureError(f"cannot read pcap file {source}: {error}") from error
