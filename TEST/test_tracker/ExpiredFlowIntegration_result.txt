@@ -1,0 +1,19 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/winky/workspace/learning/NT204.R11.ANTN/homework/NT204.R11.ANTN_VoQuangVu_24522045
+plugins: typeguard-4.4.4
+collecting ... collected 10 items
+
+TEST/test_tracker/test_expired_flow_integration.py::test_expired_flow_pcap_callback PASSED [ 10%]
+TEST/test_tracker/test_expired_flow_integration.py::test_expired_flow_below_timeout PASSED [ 20%]
+TEST/test_tracker/test_expired_flow_integration.py::test_expired_flow_tcp_state_flags PASSED [ 30%]
+TEST/test_tracker/test_expired_flow_integration.py::test_expired_flow_console_output PASSED [ 40%]
+TEST/test_tracker/test_expired_flow_integration.py::test_expired_flow_jsonl_logger PASSED [ 50%]
+TEST/test_tracker/test_expired_flow_integration.py::test_expired_flow_skip_partial PASSED [ 60%]
+TEST/test_tracker/test_expired_flow_integration.py::test_expired_flow_cli_stdout PASSED [ 70%]
+TEST/test_tracker/test_expired_flow_integration.py::test_expired_flow_cli_file PASSED [ 80%]
+TEST/test_tracker/test_expired_flow_integration.py::test_expired_flow_live_mock PASSED [ 90%]
+TEST/test_tracker/test_expired_flow_integration.py::test_expired_flow_backward_compatible_reader PASSED [100%]
+
+============================== 10 passed in 2.54s ==============================
