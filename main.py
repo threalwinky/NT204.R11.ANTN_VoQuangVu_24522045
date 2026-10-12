@@ -6,6 +6,7 @@ from pathlib import Path
 
 from modules.capture import CaptureError, capture_live, read_pcap
 from modules.logger import JSONLLogger
+from modules.preprocessor import apply_processing_policy
 
 OUTPUT_DIR = Path("files/output")
 
@@ -22,7 +23,14 @@ def print_event(event) -> None:
 def run_capture(args, emit) -> None:
 
     def handle(event) -> None:
-        if args.skip_unknown and event.status == "UNKNOWN":
+        apply_processing_policy(
+            event,
+            skip_partial=args.skip_partial,
+            skip_invalid=args.skip_invalid,
+            skip_unknown=args.skip_unknown,
+        )
+
+        if event.processing_action == "skip":
             return
 
         emit(event)
@@ -69,6 +77,18 @@ def main():
         "--skip-unknown",
         action="store_true",
         help="skip events with UNKNOWN status",
+    )
+
+    parser.add_argument(
+        "--skip-partial",
+        action="store_true",
+        help="skip events with partial preprocessing status",
+    )
+
+    parser.add_argument(
+        "--skip-invalid",
+        action="store_true",
+        help="skip events with invalid preprocessing status",
     )
 
     args = parser.parse_args()
