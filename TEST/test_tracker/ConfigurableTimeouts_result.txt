@@ -1,0 +1,20 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/winky/workspace/learning/NT204.R11.ANTN/homework/NT204.R11.ANTN_VoQuangVu_24522045
+plugins: typeguard-4.4.4
+collecting ... collected 11 items
+
+TEST/test_tracker/test_configurable_timeouts.py::test_udp_reader_custom_timeout_expires PASSED [  9%]
+TEST/test_tracker/test_configurable_timeouts.py::test_tcp_reader_custom_timeout_expires PASSED [ 18%]
+TEST/test_tracker/test_configurable_timeouts.py::test_longer_timeout_preserves_flow PASSED [ 27%]
+TEST/test_tracker/test_configurable_timeouts.py::test_timeout_exact_boundary PASSED [ 36%]
+TEST/test_tracker/test_configurable_timeouts.py::test_tcp_udp_timeout_independent PASSED [ 45%]
+TEST/test_tracker/test_configurable_timeouts.py::test_timeout_and_capture_end_no_duplicates PASSED [ 54%]
+TEST/test_tracker/test_configurable_timeouts.py::test_cli_stdout_custom_timeout PASSED [ 63%]
+TEST/test_tracker/test_configurable_timeouts.py::test_cli_jsonl_custom_timeout PASSED [ 72%]
+TEST/test_tracker/test_configurable_timeouts.py::test_cli_rejects_invalid_timeout_values PASSED [ 81%]
+TEST/test_tracker/test_configurable_timeouts.py::test_live_capture_custom_timeout_mock PASSED [ 90%]
+TEST/test_tracker/test_configurable_timeouts.py::test_main_forwards_live_timeouts PASSED [100%]
+
+============================== 11 passed in 7.50s ==============================
