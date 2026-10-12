@@ -32,6 +32,9 @@ class NormalizedIDSEvent:
     # Parsing status
     status: str = "OK"
     error: str | None = None
+    preprocess_status: str | None = None
+    processing_action: str | None = None
+    reason: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)

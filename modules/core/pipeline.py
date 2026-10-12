@@ -11,6 +11,7 @@ from ..decoder import (
 )
 from ..detector import detect_application_protocol
 from ..models import NormalizedIDSEvent
+from ..preprocessor import validate_event
 from ..parsers import (
     parse_dns_query,
     parse_dns_response,
@@ -104,5 +105,13 @@ def parse_packet(
         _record_parse_error(event, error)
 
     _mark_unknown(event)
+
+    try:
+        validate_event(event)
+    except Exception as error:
+        _record_parse_error(event, error)
+        event.preprocess_status = "invalid"
+        event.processing_action = "emit"
+        event.reason = "validation_exception"
 
     return event
