@@ -12,12 +12,8 @@ OUTPUT_DIR = Path("files/output")
 
 
 def print_event(event) -> None:
-    print(
-        json.dumps(
-            event.to_dict(),
-            ensure_ascii=False,
-        )
-    )
+    record = event if isinstance(event, dict) else event.to_dict()
+    print(json.dumps(record, ensure_ascii=False))
 
 
 def run_capture(args, emit) -> None:
@@ -41,12 +37,13 @@ def run_capture(args, emit) -> None:
         capture_live(
             interface=args.interface,
             on_event=handle,
+            on_flow_expired=emit,
         )
 
     else:
         print(f"Reading from {args.pcap}...")
 
-        for event in read_pcap(args.pcap):
+        for event in read_pcap(args.pcap, on_flow_expired=emit):
             handle(event)
 
 
