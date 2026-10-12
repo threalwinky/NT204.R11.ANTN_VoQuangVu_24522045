@@ -437,3 +437,331 @@ def test_t13_pcap_statistics_and_json():
 
     assert decoded[1]["flow_statistics"]["byte_count"] == 5
     assert decoded[3]["flow_statistics"]["byte_count"] == 6
+
+
+def test_t13_tcp_flag_counters_full_lifecycle():
+    tracker = FlowTracker()
+
+    steps = [
+        ("S", False),
+        ("SA", True),
+        ("A", False),
+        ("FA", False),
+        ("A", True),
+        ("FA", True),
+        ("A", False),
+    ]
+
+    events = [
+        send(
+            tracker,
+            index,
+            timestamp=1000 + index,
+            flags=flags,
+            reverse=reverse,
+        )
+        for index, (flags, reverse) in enumerate(steps, start=1)
+    ]
+
+    assert [event.tcp_state for event in events] == [
+        "NEW",
+        "HANDSHAKE",
+        "ESTABLISHED",
+        "CLOSING",
+        "CLOSING",
+        "CLOSING",
+        "CLOSED",
+    ]
+
+    assert len({event.flow_id for event in events}) == 1
+
+    flow = tracker.get_flow_stats(events[0].flow_id)
+
+    assert flow["SYN_count"] == 2
+    assert flow["ACK_count"] == 6
+    assert flow["FIN_count"] == 2
+    assert flow["RST_count"] == 0
+    assert flow["packet_count"] == 7
+    assert flow["start_time"] == 1001.0
+    assert flow["duration"] == 6.0
+
+    assert events[0].flow_statistics["SYN_count"] == 1
+    assert events[0].flow_statistics["ACK_count"] == 0
+    assert events[1].flow_statistics["SYN_count"] == 2
+    assert events[1].flow_statistics["ACK_count"] == 1
+    assert events[-1].flow_statistics["FIN_count"] == 2
+
+    stats = tracker.get_stats()
+
+    assert stats["SYN_count"] == 2
+    assert stats["ACK_count"] == 6
+    assert stats["FIN_count"] == 2
+    assert stats["RST_count"] == 0
+
+
+def test_t13_rst_flag_counters():
+    tracker = FlowTracker()
+
+    steps = [
+        ("S", False),
+        ("SA", True),
+        ("A", False),
+        ("RA", True),
+        ("A", False),
+    ]
+
+    events = [
+        send(
+            tracker,
+            index,
+            timestamp=1000 + index,
+            flags=flags,
+            reverse=reverse,
+        )
+        for index, (flags, reverse) in enumerate(steps, start=1)
+    ]
+
+    flow = tracker.get_flow_stats(events[0].flow_id)
+
+    assert flow["tcp_state"] == "RESET"
+    assert flow["SYN_count"] == 2
+    assert flow["ACK_count"] == 4
+    assert flow["FIN_count"] == 0
+    assert flow["RST_count"] == 1
+    assert flow["packet_count"] == 5
+
+    assert events[3].tcp_state == "RESET"
+    assert events[4].tcp_state == "RESET"
+    assert events[3].flow_statistics["RST_count"] == 1
+    assert events[4].flow_statistics["ACK_count"] == 4
+
+
+def test_t13_udp_protocol_metadata_and_zero_tcp_flags():
+    tracker = FlowTracker()
+
+    query = make_event(
+        packet_id=1,
+        timestamp=1000,
+        protocol="UDP",
+        payload_size=12,
+    )
+    query.application_protocol = "DNS"
+
+    response = make_event(
+        packet_id=2,
+        timestamp=1003,
+        protocol="UDP",
+        reverse=True,
+        payload_size=18,
+    )
+
+    tracker.track(query)
+    tracker.track(response)
+
+    assert query.flow_id == response.flow_id
+
+    flow = tracker.get_flow_stats(query.flow_id)
+
+    assert flow["transport_protocol"] == "UDP"
+    assert flow["application_protocol"] == "DNS"
+    assert flow["start_time"] == 1000.0
+    assert flow["last_seen"] == 1003.0
+    assert flow["duration"] == 3.0
+
+    assert flow["packet_count"] == 2
+    assert flow["byte_count"] == 30
+    assert flow["forward_bytes"] == 12
+    assert flow["backward_bytes"] == 18
+
+    for flag in ("SYN_count", "ACK_count", "FIN_count", "RST_count"):
+        assert flow[flag] == 0
+        assert tracker.get_stats()[flag] == 0
+
+    assert response.flow_statistics["application_protocol"] == "DNS"
+    assert response.flow_statistics["tcp_state"] is None
+
+
+def test_t13_application_protocol_discovered_later():
+    tracker = FlowTracker()
+
+    syn = make_event(
+        packet_id=1,
+        timestamp=1000,
+        flags="S",
+    )
+
+    syn_ack = make_event(
+        packet_id=2,
+        timestamp=1001,
+        flags="SA",
+        reverse=True,
+    )
+    syn_ack.application_protocol = "HTTP"
+
+    ack = make_event(
+        packet_id=3,
+        timestamp=1002,
+        flags="A",
+    )
+
+    for event in (syn, syn_ack, ack):
+        tracker.track(event)
+
+    assert syn.flow_id == syn_ack.flow_id == ack.flow_id
+
+    assert syn.flow_statistics["application_protocol"] is None
+    assert syn_ack.flow_statistics["application_protocol"] == "HTTP"
+    assert ack.flow_statistics["application_protocol"] == "HTTP"
+
+    flow = tracker.get_flow_stats(syn.flow_id)
+
+    assert flow["application_protocol"] == "HTTP"
+    assert flow["SYN_count"] == 2
+    assert flow["ACK_count"] == 2
+    assert flow["tcp_state"] == "ESTABLISHED"
+
+
+def test_t13_aggregated_flag_counters_multiple_flows():
+    tracker = FlowTracker()
+
+    first = send(
+        tracker, 1,
+        timestamp=1000,
+        port=50000,
+        flags="S",
+    )
+
+    second = send(
+        tracker, 2,
+        timestamp=1001,
+        port=50000,
+        flags="SA",
+        reverse=True,
+    )
+
+    third = send(
+        tracker, 3,
+        timestamp=1002,
+        port=50001,
+        flags="RA",
+    )
+
+    fourth = send(
+        tracker, 4,
+        timestamp=1003,
+        port=53000,
+        protocol="UDP",
+    )
+
+    assert first.flow_id == second.flow_id
+    assert len({first.flow_id, third.flow_id, fourth.flow_id}) == 3
+
+    stats = tracker.get_stats()
+
+    assert stats["active_flows"] == 3
+    assert stats["tcp_flows"] == 2
+    assert stats["udp_flows"] == 1
+    assert stats["SYN_count"] == 2
+    assert stats["ACK_count"] == 2
+    assert stats["FIN_count"] == 0
+    assert stats["RST_count"] == 1
+
+    assert stats["tcp_states"] == {
+        "HANDSHAKE": 1,
+        "RESET": 1,
+    }
+
+
+def test_t13_expiration_updates_flag_counters():
+    tracker = FlowTracker(tcp_timeout=5)
+
+    first = send(
+        tracker, 1,
+        timestamp=1000,
+        port=50000,
+        flags="S",
+    )
+
+    second = send(
+        tracker, 2,
+        timestamp=1001,
+        port=50001,
+        flags="A",
+    )
+
+    assert tracker.get_stats()["SYN_count"] == 1
+    assert tracker.get_stats()["ACK_count"] == 1
+
+    expired = tracker.expire_flows(1005)
+
+    assert len(expired) == 1
+    assert expired[0].flow_id == first.flow_id
+    assert expired[0].syn_count == 1
+
+    stats = tracker.get_stats()
+
+    assert stats["active_flows"] == 1
+    assert stats["total_flows_created"] == 2
+    assert stats["SYN_count"] == 0
+    assert stats["ACK_count"] == 1
+
+    assert tracker.get_flow_stats(first.flow_id) is None
+    assert tracker.get_flow_stats(second.flow_id) is not None
+
+
+def test_t13_tcp_flag_statistics_from_pcap_json():
+    packets = [
+        IP(src=CLIENT, dst=SERVER)
+        / TCP(sport=50000, dport=80, flags="S"),
+
+        IP(src=SERVER, dst=CLIENT)
+        / TCP(sport=80, dport=50000, flags="SA"),
+
+        IP(src=CLIENT, dst=SERVER)
+        / TCP(sport=50000, dport=80, flags="A"),
+
+        IP(src=SERVER, dst=CLIENT)
+        / TCP(sport=80, dport=50000, flags="RA"),
+    ]
+
+    for index, packet in enumerate(packets):
+        packet.time = float(1000 + index)
+
+    with TemporaryDirectory() as directory:
+        path = Path(directory) / "t13_tcp_flags.pcap"
+        wrpcap(str(path), packets)
+        events = list(read_pcap(path))
+
+    assert len(events) == 4
+    assert len({event.flow_id for event in events}) == 1
+
+    assert [event.tcp_state for event in events] == [
+        "NEW",
+        "HANDSHAKE",
+        "ESTABLISHED",
+        "RESET",
+    ]
+
+    flow = events[-1].flow_statistics
+
+    assert flow["application_protocol"] == "HTTP"
+    assert flow["start_time"] == 1000.0
+    assert flow["duration"] == 3.0
+    assert flow["packet_count"] == 4
+
+    assert flow["SYN_count"] == 2
+    assert flow["ACK_count"] == 3
+    assert flow["FIN_count"] == 0
+    assert flow["RST_count"] == 1
+
+    output = json.dumps(
+        [event.to_dict() for event in events],
+        ensure_ascii=False,
+    )
+    decoded = json.loads(output)
+
+    assert decoded[0]["flow_statistics"]["SYN_count"] == 1
+    assert decoded[1]["flow_statistics"]["SYN_count"] == 2
+    assert decoded[2]["flow_statistics"]["ACK_count"] == 2
+    assert decoded[3]["flow_statistics"]["RST_count"] == 1
+    assert decoded[3]["flow_statistics"]["tcp_state"] == "RESET"
