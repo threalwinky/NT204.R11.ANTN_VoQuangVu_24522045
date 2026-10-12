@@ -11,7 +11,12 @@ from ..decoder import (
 )
 from ..detector import detect_application_protocol
 from ..models import NormalizedIDSEvent
-from ..preprocessor import normalize_event, validate_event
+from ..preprocessor import (
+    apply_processing_policy,
+    handle_missing_fields,
+    normalize_event,
+    validate_event,
+)
 from ..parsers import (
     parse_dns_query,
     parse_dns_response,
@@ -109,6 +114,8 @@ def parse_packet(
     try:
         normalize_event(event)
         validate_event(event)
+        handle_missing_fields(event)
+        apply_processing_policy(event)
     except Exception as error:
         _record_parse_error(event, error)
         event.preprocess_status = "invalid"
