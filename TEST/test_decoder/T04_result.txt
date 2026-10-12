@@ -1,0 +1,15 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/winky/workspace/learning/NT204.R11.ANTN/homework/NT204.R11.ANTN_VoQuangVu_24522045
+plugins: typeguard-4.4.4
+collecting ... collected 6 items
+
+TEST/test_decoder/test_t04_invalid_utf8.py::test_t04_invalid_http_body[POST /submit HTTP/1.1-50000-80-request] PASSED [ 16%]
+TEST/test_decoder/test_t04_invalid_utf8.py::test_t04_invalid_http_body[HTTP/1.1 200 OK-80-50000-response] PASSED [ 33%]
+TEST/test_decoder/test_t04_invalid_utf8.py::test_t04_invalid_percent_encoded_uri PASSED [ 50%]
+TEST/test_decoder/test_t04_invalid_utf8.py::test_t04_invalid_form_encoding PASSED [ 66%]
+TEST/test_decoder/test_t04_invalid_utf8.py::test_t04_invalid_smtp_utf8 PASSED [ 83%]
+TEST/test_decoder/test_t04_invalid_utf8.py::test_t04_continues_after_invalid_packet PASSED [100%]
+
+============================== 6 passed in 0.49s ===============================

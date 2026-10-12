@@ -12,4 +12,4 @@ TEST/test_decoder/test_t03_smtp_mime.py::test_t03_invalid_base64 PASSED  [ 66%]
 TEST/test_decoder/test_t03_smtp_mime.py::test_t03_size_limit PASSED      [ 83%]
 TEST/test_decoder/test_t03_smtp_mime.py::test_t03_unencoded_body PASSED  [100%]
 
-============================== 6 passed in 0.44s ===============================
+============================== 6 passed in 0.47s ===============================

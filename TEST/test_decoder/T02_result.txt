@@ -11,4 +11,4 @@ TEST/test_decoder/test_t02_html_entities.py::test_t02_unsupported_content_type P
 TEST/test_decoder/test_t02_html_entities.py::test_t02_body_size_limit PASSED [ 80%]
 TEST/test_decoder/test_t02_html_entities.py::test_t02_missing_body PASSED [100%]
 
-============================== 5 passed in 0.44s ===============================
+============================== 5 passed in 0.51s ===============================
