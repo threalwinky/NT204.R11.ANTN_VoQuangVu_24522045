@@ -1,0 +1,17 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/winky/workspace/learning/NT204.R11.ANTN/homework/NT204.R11.ANTN_VoQuangVu_24522045
+plugins: typeguard-4.4.4
+collecting ... collected 8 items
+
+TEST/test_tracker/test_t09_tcp_close.py::test_t09_graceful_tcp_close PASSED [ 12%]
+TEST/test_tracker/test_t09_tcp_close.py::test_t09_server_initiated_close PASSED [ 25%]
+TEST/test_tracker/test_t09_tcp_close.py::test_t09_one_sided_fin_remains_closing PASSED [ 37%]
+TEST/test_tracker/test_t09_tcp_close.py::test_t09_fin_retransmission PASSED [ 50%]
+TEST/test_tracker/test_t09_tcp_close.py::test_t09_reset_established_connection PASSED [ 62%]
+TEST/test_tracker/test_t09_tcp_close.py::test_t09_reset_during_closing PASSED [ 75%]
+TEST/test_tracker/test_t09_tcp_close.py::test_t09_close_one_flow_does_not_close_another PASSED [ 87%]
+TEST/test_tracker/test_t09_tcp_close.py::test_t09_close_from_pcap PASSED [100%]
+
+============================== 8 passed in 0.76s ===============================
