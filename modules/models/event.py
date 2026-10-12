@@ -38,6 +38,7 @@ class NormalizedIDSEvent:
     flow_id: str | None = None
     flow_direction: str | None = None
     tcp_state: str | None = None
+    flow_statistics: dict[str, Any] | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)

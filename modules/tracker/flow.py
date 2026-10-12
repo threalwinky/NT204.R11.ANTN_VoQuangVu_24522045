@@ -18,6 +18,40 @@ class FlowRecord:
     syn_ack_from_responder: bool = False
     fin_from_initiator: bool = False
     fin_from_responder: bool = False
+    packet_count: int = 0
+    byte_count: int = 0
+    forward_packets: int = 0
+    backward_packets: int = 0
+    forward_bytes: int = 0
+    backward_bytes: int = 0
+
+    @property
+    def duration(self) -> float:
+        return max(0.0, self.last_seen - self.first_seen)
+
+    def to_dict(self) -> dict[str, object]:
+        return {
+            "flow_id": self.flow_id,
+            "transport_protocol": self.protocol,
+            "initiator": {
+                "ip": self.initiator[0],
+                "port": self.initiator[1],
+            },
+            "responder": {
+                "ip": self.responder[0],
+                "port": self.responder[1],
+            },
+            "first_seen": self.first_seen,
+            "last_seen": self.last_seen,
+            "duration": self.duration,
+            "tcp_state": self.tcp_state,
+            "packet_count": self.packet_count,
+            "byte_count": self.byte_count,
+            "forward_packets": self.forward_packets,
+            "backward_packets": self.backward_packets,
+            "forward_bytes": self.forward_bytes,
+            "backward_bytes": self.backward_bytes,
+        }
 
 
 class FlowTracker:
@@ -71,6 +105,56 @@ class FlowTracker:
                 expired.append(self.flows.pop(key))
 
         return expired
+
+    def get_flow_stats(
+        self,
+        flow_id: str,
+    ) -> dict[str, object] | None:
+
+        for flow in self.flows.values():
+            if flow.flow_id == flow_id:
+                return flow.to_dict()
+
+        return None
+
+    def get_stats(self) -> dict[str, object]:
+        flows = list(self.flows.values())
+        states = {}
+
+        for flow in flows:
+            if flow.protocol == "TCP":
+                state = flow.tcp_state or "NEW"
+                states[state] = states.get(state, 0) + 1
+
+        return {
+            "active_flows": len(flows),
+            "total_flows_created": self._next_flow_number - 1,
+            "tcp_flows": sum(
+                flow.protocol == "TCP" for flow in flows
+            ),
+            "udp_flows": sum(
+                flow.protocol == "UDP" for flow in flows
+            ),
+            "total_packets": sum(
+                flow.packet_count for flow in flows
+            ),
+            "total_bytes": sum(
+                flow.byte_count for flow in flows
+            ),
+            "forward_packets": sum(
+                flow.forward_packets for flow in flows
+            ),
+            "backward_packets": sum(
+                flow.backward_packets for flow in flows
+            ),
+            "forward_bytes": sum(
+                flow.forward_bytes for flow in flows
+            ),
+            "backward_bytes": sum(
+                flow.backward_bytes for flow in flows
+            ),
+            "tcp_states": states,
+        }
 
     def _update_tcp_state(
         self,
@@ -203,5 +287,24 @@ class FlowTracker:
             event.flow_direction = "backward"
 
         self._update_tcp_state(flow, event)
+
+        payload_bytes = (
+            event.payload_length
+            if type(event.payload_length) is int
+            and event.payload_length >= 0
+            else 0
+        )
+
+        flow.packet_count += 1
+        flow.byte_count += payload_bytes
+
+        if event.flow_direction == "forward":
+            flow.forward_packets += 1
+            flow.forward_bytes += payload_bytes
+        else:
+            flow.backward_packets += 1
+            flow.backward_bytes += payload_bytes
+
+        event.flow_statistics = flow.to_dict()
 
         return event
