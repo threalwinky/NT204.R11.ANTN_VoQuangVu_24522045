@@ -6,6 +6,7 @@ from scapy.utils import PcapReader
 
 from ..core import parse_packet
 from ..models import NormalizedIDSEvent
+from ..tracker import FlowTracker
 from .errors import CaptureError
 
 
@@ -14,6 +15,7 @@ def read_pcap(
 ) -> Iterator[NormalizedIDSEvent]:
     
     source = Path(path)
+    tracker = FlowTracker()
 
     try:
         with PcapReader(str(source)) as reader:
@@ -21,6 +23,7 @@ def read_pcap(
                 yield parse_packet(
                     packet,
                     packet_id=packet_id,
+                    tracker=tracker,
                 )
     except (OSError, Scapy_Exception) as error:
         raise CaptureError(f"cannot read pcap file {source}: {error}") from error

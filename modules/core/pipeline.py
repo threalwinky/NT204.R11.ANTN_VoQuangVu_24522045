@@ -11,6 +11,7 @@ from ..decoder import (
 )
 from ..detector import detect_application_protocol
 from ..models import NormalizedIDSEvent
+from ..tracker import FlowTracker
 from ..preprocessor import (
     apply_processing_policy,
     handle_missing_fields,
@@ -52,6 +53,7 @@ def _mark_unknown(
 def parse_packet(
     packet: Packet,
     packet_id: int,
+    tracker: FlowTracker | None = None,
 ) -> NormalizedIDSEvent:
 
     packet_time = getattr(packet, "time", None)
@@ -116,6 +118,9 @@ def parse_packet(
         validate_event(event)
         handle_missing_fields(event)
         apply_processing_policy(event)
+
+        if tracker is not None:
+            tracker.track(event)
     except Exception as error:
         _record_parse_error(event, error)
         event.preprocess_status = "invalid"

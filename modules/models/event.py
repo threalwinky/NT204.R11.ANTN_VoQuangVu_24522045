@@ -35,6 +35,8 @@ class NormalizedIDSEvent:
     preprocess_status: str | None = None
     processing_action: str | None = None
     reason: str | None = None
+    flow_id: str | None = None
+    flow_direction: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)

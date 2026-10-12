@@ -7,6 +7,7 @@ from scapy.interfaces import resolve_iface
 
 from ..core import parse_packet
 from ..models import NormalizedIDSEvent
+from ..tracker import FlowTracker
 from .errors import CaptureError
 
 
@@ -21,6 +22,7 @@ def capture_live(
         raise CaptureError(f"interface {interface!r} not found") from error
 
     packet_ids = count(start=1)
+    tracker = FlowTracker()
 
     def handle_packet(packet) -> None:
         packet_id = next(packet_ids)
@@ -28,6 +30,7 @@ def capture_live(
         event = parse_packet(
             packet,
             packet_id=packet_id,
+            tracker=tracker,
         )
 
         on_event(event)
