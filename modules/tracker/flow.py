@@ -13,12 +13,72 @@ class FlowRecord:
     responder: tuple[str, int]
     first_seen: float
     last_seen: float
+    tcp_state: str | None = None
+    syn_from_initiator: bool = False
+    syn_ack_from_responder: bool = False
+    fin_from_initiator: bool = False
+    fin_from_responder: bool = False
 
 
 class FlowTracker:
     def __init__(self):
         self.flows = {}
         self._next_flow_number = 1
+
+    def _update_tcp_state(
+        self,
+        flow: FlowRecord,
+        event: NormalizedIDSEvent,
+    ) -> None:
+
+        if flow.protocol != "TCP":
+            return
+
+        if flow.tcp_state is None:
+            flow.tcp_state = "NEW"
+
+        if flow.tcp_state in ("CLOSED", "RESET"):
+            event.tcp_state = flow.tcp_state
+            return
+
+        flags = event.tcp_flags if isinstance(event.tcp_flags, str) else ""
+        forward = event.flow_direction == "forward"
+
+        if "R" in flags:
+            flow.tcp_state = "RESET"
+
+        elif "F" in flags:
+            if forward:
+                flow.fin_from_initiator = True
+            else:
+                flow.fin_from_responder = True
+
+            flow.tcp_state = "CLOSING"
+
+        elif flow.fin_from_initiator or flow.fin_from_responder:
+            if (
+                flow.fin_from_initiator
+                and flow.fin_from_responder
+                and "A" in flags
+            ):
+                flow.tcp_state = "CLOSED"
+            else:
+                flow.tcp_state = "CLOSING"
+
+        elif "S" in flags and "A" not in flags:
+            if forward:
+                flow.syn_from_initiator = True
+
+        elif "S" in flags and "A" in flags:
+            if not forward and flow.syn_from_initiator:
+                flow.syn_ack_from_responder = True
+                flow.tcp_state = "HANDSHAKE"
+
+        elif "A" in flags and forward:
+            if flow.syn_from_initiator and flow.syn_ack_from_responder:
+                flow.tcp_state = "ESTABLISHED"
+
+        event.tcp_state = flow.tcp_state
 
     def track(
         self,
@@ -92,5 +152,7 @@ class FlowTracker:
             event.flow_direction = "forward"
         else:
             event.flow_direction = "backward"
+
+        self._update_tcp_state(flow, event)
 
         return event
