@@ -43,7 +43,14 @@ def run_capture(args, emit) -> None:
     else:
         print(f"Reading from {args.pcap}...")
 
-        for event in read_pcap(args.pcap, on_flow_expired=emit):
+        for event in read_pcap(
+            args.pcap,
+            on_flow_expired=emit,
+            on_flow_finalized=(
+                emit if getattr(args, "emit_flow_summaries", False)
+                else None
+            ),
+        ):
             handle(event)
 
 
@@ -88,7 +95,16 @@ def main():
         help="skip events with invalid preprocessing status",
     )
 
+    parser.add_argument(
+        "--emit-flow-summaries",
+        action="store_true",
+        help="Export remaining flow summaries at the end of a PCAP",
+    )
+
     args = parser.parse_args()
+
+    if args.interface and args.emit_flow_summaries:
+        parser.error("--emit-flow-summaries requires --pcap")
 
     try:
         if args.output == "file":
