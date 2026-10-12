@@ -1,0 +1,15 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/winky/workspace/learning/NT204.R11.ANTN/homework/NT204.R11.ANTN_VoQuangVu_24522045
+plugins: typeguard-4.4.4
+collecting ... collected 6 items
+
+TEST/test_preprocessor/test_t05_normalization.py::test_t05_protocol_ip_domain_timestamp PASSED [ 16%]
+TEST/test_preprocessor/test_t05_normalization.py::test_t05_http_headers_and_uri PASSED [ 33%]
+TEST/test_preprocessor/test_t05_normalization.py::test_t05_dns_response_normalization PASSED [ 50%]
+TEST/test_preprocessor/test_t05_normalization.py::test_t05_invalid_ip_is_preserved PASSED [ 66%]
+TEST/test_preprocessor/test_t05_normalization.py::test_t05_malformed_uri PASSED [ 83%]
+TEST/test_preprocessor/test_t05_normalization.py::test_t05_normalization_idempotent PASSED [100%]
+
+============================== 6 passed in 0.50s ===============================
