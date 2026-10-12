@@ -1,5 +1,7 @@
 from collections.abc import Callable
 from itertools import count
+from threading import Event, RLock, Thread
+from time import monotonic
 
 from scapy.all import sniff
 from scapy.error import Scapy_Exception
@@ -31,16 +33,52 @@ def capture_live(
         on_flow_expired=on_flow_expired,
     )
 
+    tracker_lock = RLock()
+    stop_expiration = Event()
+    check_interval = min(
+        0.5,
+        tracker.tcp_timeout / 2,
+        tracker.udp_timeout / 2,
+    )
+
+    last_packet_timestamp = None
+    last_packet_monotonic = None
+
     def handle_packet(packet) -> None:
-        packet_id = next(packet_ids)
+        nonlocal last_packet_timestamp, last_packet_monotonic
 
-        event = parse_packet(
-            packet,
-            packet_id=packet_id,
-            tracker=tracker,
-        )
+        with tracker_lock:
+            packet_id = next(packet_ids)
 
-        on_event(event)
+            event = parse_packet(
+                packet,
+                packet_id=packet_id,
+                tracker=tracker,
+            )
+
+            if event.flow_id is not None:
+                last_packet_timestamp = float(event.timestamp)
+                last_packet_monotonic = monotonic()
+
+            on_event(event)
+
+    def expire_on_idle() -> None:
+        while not stop_expiration.wait(check_interval):
+            with tracker_lock:
+                if last_packet_timestamp is None:
+                    continue
+
+                elapsed = monotonic() - last_packet_monotonic
+                now = last_packet_timestamp + elapsed
+                tracker.expire_flows(now)
+
+    expiration_thread = Thread(
+        target=expire_on_idle,
+        name="ids-live-flow-expiration",
+        daemon=True,
+    )
+
+    expiration_thread.start()
 
     try:
         sniff(
@@ -50,3 +88,6 @@ def capture_live(
         )
     except (OSError, Scapy_Exception) as error:
         raise CaptureError(f"cannot capture on {interface!r}: {error}") from error
+    finally:
+        stop_expiration.set()
+        expiration_thread.join()
