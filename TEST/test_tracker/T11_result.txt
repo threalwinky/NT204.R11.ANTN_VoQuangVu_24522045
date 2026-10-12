@@ -1,0 +1,17 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/winky/workspace/learning/NT204.R11.ANTN/homework/NT204.R11.ANTN_VoQuangVu_24522045
+plugins: typeguard-4.4.4
+collecting ... collected 8 items
+
+TEST/test_tracker/test_t11_concurrent_flows.py::test_t11_interleaved_tcp_handshakes PASSED [ 12%]
+TEST/test_tracker/test_t11_concurrent_flows.py::test_t11_interleaved_tcp_and_udp PASSED [ 25%]
+TEST/test_tracker/test_t11_concurrent_flows.py::test_t11_close_one_flow_keeps_other_established PASSED [ 37%]
+TEST/test_tracker/test_t11_concurrent_flows.py::test_t11_reset_one_flow_does_not_reset_other PASSED [ 50%]
+TEST/test_tracker/test_t11_concurrent_flows.py::test_t11_thirty_interleaved_connections PASSED [ 62%]
+TEST/test_tracker/test_t11_concurrent_flows.py::test_t11_reverse_first_packet_isolated PASSED [ 75%]
+TEST/test_tracker/test_t11_concurrent_flows.py::test_t11_concurrent_flows_from_pcap PASSED [ 87%]
+TEST/test_tracker/test_t11_concurrent_flows.py::test_t11_separate_capture_sessions PASSED [100%]
+
+============================== 8 passed in 0.74s ===============================
