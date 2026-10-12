@@ -1,0 +1,21 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/winky/workspace/learning/NT204.R11.ANTN/homework/NT204.R11.ANTN_VoQuangVu_24522045
+plugins: typeguard-4.4.4
+collecting ... collected 12 items
+
+TEST/test_tracker/test_t12_idle_timeout.py::test_t12_default_and_custom_timeouts PASSED [  8%]
+TEST/test_tracker/test_t12_idle_timeout.py::test_t12_tcp_exact_timeout_boundary PASSED [ 16%]
+TEST/test_tracker/test_t12_idle_timeout.py::test_t12_udp_reverse_packet_refreshes_timeout PASSED [ 25%]
+TEST/test_tracker/test_t12_idle_timeout.py::test_t12_tcp_udp_independent_timeouts PASSED [ 33%]
+TEST/test_tracker/test_t12_idle_timeout.py::test_t12_automatic_cleanup_of_other_flows PASSED [ 41%]
+TEST/test_tracker/test_t12_idle_timeout.py::test_t12_manual_expiration PASSED [ 50%]
+TEST/test_tracker/test_t12_idle_timeout.py::test_t12_out_of_order_timestamps PASSED [ 58%]
+TEST/test_tracker/test_t12_idle_timeout.py::test_t12_tcp_handshake_restarts_after_timeout PASSED [ 66%]
+TEST/test_tracker/test_t12_idle_timeout.py::test_t12_invalid_event_does_not_trigger_cleanup PASSED [ 75%]
+TEST/test_tracker/test_t12_idle_timeout.py::test_t12_reject_invalid_timeout_configuration PASSED [ 83%]
+TEST/test_tracker/test_t12_idle_timeout.py::test_t12_reject_invalid_expiration_timestamp PASSED [ 91%]
+TEST/test_tracker/test_t12_idle_timeout.py::test_t12_pcap_timeout PASSED [100%]
+
+============================== 12 passed in 0.75s ==============================
