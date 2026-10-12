@@ -23,12 +23,17 @@ class JSONLLogger:
 
         return self
 
-    def write(self, event: NormalizedIDSEvent) -> None:
+    def write(
+        self,
+        event: NormalizedIDSEvent | dict[str, object],
+    ) -> None:
         if self._file is None:
             raise RuntimeError("Logging file is not open")
 
+        record = event if isinstance(event, dict) else event.to_dict()
+
         line = json.dumps(
-            event.to_dict(),
+            record,
             ensure_ascii=False,
             separators=(",", ":"),
         )

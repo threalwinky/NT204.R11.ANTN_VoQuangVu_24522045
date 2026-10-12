@@ -1,4 +1,4 @@
-from collections.abc import Iterator
+from collections.abc import Callable, Iterator
 from pathlib import Path
 
 from scapy.error import Scapy_Exception
@@ -12,10 +12,11 @@ from .errors import CaptureError
 
 def read_pcap(
     path: str | Path,
+    on_flow_expired: Callable[[dict[str, object]], None] | None = None,
 ) -> Iterator[NormalizedIDSEvent]:
     
     source = Path(path)
-    tracker = FlowTracker()
+    tracker = FlowTracker(on_flow_expired=on_flow_expired)
 
     try:
         with PcapReader(str(source)) as reader:
