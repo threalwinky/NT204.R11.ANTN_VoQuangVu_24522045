@@ -1,3 +1,4 @@
+from collections.abc import Callable
 from dataclasses import dataclass
 from ipaddress import IPv4Address
 from math import isfinite
@@ -70,7 +71,13 @@ class FlowTracker:
         self,
         tcp_timeout: float = 300.0,
         udp_timeout: float = 60.0,
+        on_flow_expired: Callable[[dict[str, object]], None] | None = None,
     ):
+        if on_flow_expired is not None and not callable(on_flow_expired):
+            raise TypeError("on_flow_expired must be callable")
+
+        self.on_flow_expired = on_flow_expired
+
         for name, value in (
             ("tcp_timeout", tcp_timeout),
             ("udp_timeout", udp_timeout),
@@ -113,6 +120,13 @@ class FlowTracker:
             )
 
             if float(now) - flow.last_seen >= timeout:
+                if self.on_flow_expired is not None:
+                    snapshot = flow.to_dict()
+                    snapshot["record_type"] = "flow_expired"
+                    snapshot["end_reason"] = "idle_timeout"
+                    snapshot["expired_at"] = float(now)
+                    self.on_flow_expired(snapshot)
+
                 expired.append(self.flows.pop(key))
 
         return expired
