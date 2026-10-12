@@ -1,0 +1,17 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/winky/workspace/learning/NT204.R11.ANTN/homework/NT204.R11.ANTN_VoQuangVu_24522045
+plugins: typeguard-4.4.4
+collecting ... collected 8 items
+
+TEST/test_tracker/test_t08_bidirectional_flow.py::test_t08_bidirectional_tcp PASSED [ 12%]
+TEST/test_tracker/test_t08_bidirectional_flow.py::test_t08_first_packet_defines_direction PASSED [ 25%]
+TEST/test_tracker/test_t08_bidirectional_flow.py::test_t08_different_source_ports PASSED [ 37%]
+TEST/test_tracker/test_t08_bidirectional_flow.py::test_t08_tcp_udp_separate_flows PASSED [ 50%]
+TEST/test_tracker/test_t08_bidirectional_flow.py::test_t08_different_ip_addresses PASSED [ 62%]
+TEST/test_tracker/test_t08_bidirectional_flow.py::test_t08_first_seen_last_seen PASSED [ 75%]
+TEST/test_tracker/test_t08_bidirectional_flow.py::test_t08_bidirectional_pcap PASSED [ 87%]
+TEST/test_tracker/test_t08_bidirectional_flow.py::test_t08_invalid_event_not_tracked PASSED [100%]
+
+============================== 8 passed in 0.80s ===============================
