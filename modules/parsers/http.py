@@ -57,9 +57,14 @@ def parse_http_request(
         headers[name.strip()] = value.strip()
 
     body = ""
+    body_decode_status = "OK"
 
     if separator:
-        body = body_bytes.decode("utf-8", errors="replace")
+        try:
+            body = body_bytes.decode("utf-8")
+        except UnicodeDecodeError:
+            body = body_bytes.decode("utf-8", errors="replace")
+            body_decode_status = "PARTIAL"
 
     event.application_protocol = "HTTP"
     event.application_data = {
@@ -69,6 +74,7 @@ def parse_http_request(
         "version": version,
         "headers": headers,
         "body": body,
+        "body_decode_status": body_decode_status,
     }
 
     return event
@@ -122,9 +128,14 @@ def parse_http_response(
         headers[name.strip()] = value.strip()
 
     body = ""
+    body_decode_status = "OK"
 
     if separator:
-        body = body_bytes.decode("utf-8", errors="replace")
+        try:
+            body = body_bytes.decode("utf-8")
+        except UnicodeDecodeError:
+            body = body_bytes.decode("utf-8", errors="replace")
+            body_decode_status = "PARTIAL"
 
     event.application_protocol = "HTTP"
     event.application_data = {
@@ -134,6 +145,7 @@ def parse_http_response(
         "reason": reason,
         "headers": headers,
         "body": body,
+        "body_decode_status": body_decode_status,
     }
 
     return event
