@@ -1,0 +1,20 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/winky/workspace/learning/NT204.R11.ANTN/homework/NT204.R11.ANTN_VoQuangVu_24522045
+plugins: typeguard-4.4.4
+collecting ... collected 11 items
+
+TEST/test_tracker/test_t13_flow_statistics.py::test_t13_empty_tracker_statistics PASSED [  9%]
+TEST/test_tracker/test_t13_flow_statistics.py::test_t13_directional_packet_byte_counters PASSED [ 18%]
+TEST/test_tracker/test_t13_flow_statistics.py::test_t13_event_statistics_snapshots PASSED [ 27%]
+TEST/test_tracker/test_t13_flow_statistics.py::test_t13_duration_with_out_of_order_packets PASSED [ 36%]
+TEST/test_tracker/test_t13_flow_statistics.py::test_t13_multiple_flows_aggregate PASSED [ 45%]
+TEST/test_tracker/test_t13_flow_statistics.py::test_t13_tcp_state_statistics_update PASSED [ 54%]
+TEST/test_tracker/test_t13_flow_statistics.py::test_t13_timeout_updates_aggregate_statistics PASSED [ 63%]
+TEST/test_tracker/test_t13_flow_statistics.py::test_t13_recreated_flow_resets_counters PASSED [ 72%]
+TEST/test_tracker/test_t13_flow_statistics.py::test_t13_invalid_event_not_counted PASSED [ 81%]
+TEST/test_tracker/test_t13_flow_statistics.py::test_t13_flow_stats_returns_independent_snapshot PASSED [ 90%]
+TEST/test_tracker/test_t13_flow_statistics.py::test_t13_pcap_statistics_and_json PASSED [100%]
+
+============================== 11 passed in 0.76s ==============================
