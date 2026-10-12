@@ -1,0 +1,31 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/winky/workspace/learning/NT204.R11.ANTN/homework/NT204.R11.ANTN_VoQuangVu_24522045
+plugins: typeguard-4.4.4
+collecting ... collected 22 items
+
+TEST/test_preprocessor/test_t14_malformed_event.py::test_t14_invalid_timestamp[-1.0] PASSED [  4%]
+TEST/test_preprocessor/test_t14_malformed_event.py::test_t14_invalid_timestamp[nan] PASSED [  9%]
+TEST/test_preprocessor/test_t14_malformed_event.py::test_t14_invalid_timestamp[inf] PASSED [ 13%]
+TEST/test_preprocessor/test_t14_malformed_event.py::test_t14_invalid_timestamp[invalid] PASSED [ 18%]
+TEST/test_preprocessor/test_t14_malformed_event.py::test_t14_invalid_timestamp[True] PASSED [ 22%]
+TEST/test_preprocessor/test_t14_malformed_event.py::test_t14_invalid_ports[src_port--1] PASSED [ 27%]
+TEST/test_preprocessor/test_t14_malformed_event.py::test_t14_invalid_ports[src_port-65536] PASSED [ 31%]
+TEST/test_preprocessor/test_t14_malformed_event.py::test_t14_invalid_ports[dst_port-80] PASSED [ 36%]
+TEST/test_preprocessor/test_t14_malformed_event.py::test_t14_invalid_ports[dst_port-True] PASSED [ 40%]
+TEST/test_preprocessor/test_t14_malformed_event.py::test_t14_invalid_ip[999.999.999.999] PASSED [ 45%]
+TEST/test_preprocessor/test_t14_malformed_event.py::test_t14_invalid_ip[not-an-ip] PASSED [ 50%]
+TEST/test_preprocessor/test_t14_malformed_event.py::test_t14_invalid_ip[] PASSED [ 54%]
+TEST/test_preprocessor/test_t14_malformed_event.py::test_t14_invalid_ip[123] PASSED [ 59%]
+TEST/test_preprocessor/test_t14_malformed_event.py::test_t14_invalid_application_data[None] PASSED [ 63%]
+TEST/test_preprocessor/test_t14_malformed_event.py::test_t14_invalid_application_data[data1] PASSED [ 68%]
+TEST/test_preprocessor/test_t14_malformed_event.py::test_t14_invalid_application_data[corrupted] PASSED [ 72%]
+TEST/test_preprocessor/test_t14_malformed_event.py::test_t14_invalid_packet_id PASSED [ 77%]
+TEST/test_preprocessor/test_t14_malformed_event.py::test_t14_invalid_payload_length PASSED [ 81%]
+TEST/test_preprocessor/test_t14_malformed_event.py::test_t14_parser_error PASSED [ 86%]
+TEST/test_preprocessor/test_t14_malformed_event.py::test_t14_unsupported_protocol PASSED [ 90%]
+TEST/test_preprocessor/test_t14_malformed_event.py::test_t14_malformed_packet_then_valid_packet PASSED [ 95%]
+TEST/test_preprocessor/test_t14_malformed_event.py::test_t14_invalid_event_skip_policy PASSED [100%]
+
+============================== 22 passed in 0.51s ==============================
