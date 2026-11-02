@@ -1,0 +1,32 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.4, pytest-9.2.0, pluggy-1.7.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/winky/workspace/learning/NT204.R11.ANTN/homework/NT204.R11.ANTN_VoQuangVu_24522045
+plugins: typeguard-4.4.4
+collecting ... collected 23 items
+
+TEST/BT3/test_t03_unsupported_rules.py::test_t03_unsupported_rule[drop-action] PASSED [  4%]
+TEST/BT3/test_t03_unsupported_rules.py::test_t03_unsupported_rule[reject-action] PASSED [  8%]
+TEST/BT3/test_t03_unsupported_rules.py::test_t03_unsupported_rule[log-action] PASSED [ 13%]
+TEST/BT3/test_t03_unsupported_rules.py::test_t03_unsupported_rule[icmp-protocol] PASSED [ 17%]
+TEST/BT3/test_t03_unsupported_rules.py::test_t03_unsupported_rule[ip-protocol] PASSED [ 21%]
+TEST/BT3/test_t03_unsupported_rules.py::test_t03_unsupported_rule[pcre-keyword] PASSED [ 26%]
+TEST/BT3/test_t03_unsupported_rules.py::test_t03_unsupported_rule[byte-test-keyword] PASSED [ 30%]
+TEST/BT3/test_t03_unsupported_rules.py::test_t03_unsupported_rule[byte-jump-keyword] PASSED [ 34%]
+TEST/BT3/test_t03_unsupported_rules.py::test_t03_unsupported_rule[http-uri-keyword] PASSED [ 39%]
+TEST/BT3/test_t03_unsupported_rules.py::test_t03_unsupported_rule[file-data-keyword] PASSED [ 43%]
+TEST/BT3/test_t03_unsupported_rules.py::test_t03_unsupported_rule[ip-variable] PASSED [ 47%]
+TEST/BT3/test_t03_unsupported_rules.py::test_t03_unsupported_rule[negated-ip] PASSED [ 52%]
+TEST/BT3/test_t03_unsupported_rules.py::test_t03_unsupported_rule[port-variable] PASSED [ 56%]
+TEST/BT3/test_t03_unsupported_rules.py::test_t03_unsupported_rule[negated-port] PASSED [ 60%]
+TEST/BT3/test_t03_unsupported_rules.py::test_t03_unsupported_rule[port-list] PASSED [ 65%]
+TEST/BT3/test_t03_unsupported_rules.py::test_t03_unsupported_rule[negated-content] PASSED [ 69%]
+TEST/BT3/test_t03_unsupported_rules.py::test_t03_unsupported_rule[unsupported-flow] PASSED [ 73%]
+TEST/BT3/test_t03_unsupported_rules.py::test_t03_unsupported_rule[unsupported-flags] PASSED [ 78%]
+TEST/BT3/test_t03_unsupported_rules.py::test_t03_unsupported_rule[unsupported-dsize] PASSED [ 82%]
+TEST/BT3/test_t03_unsupported_rules.py::test_t03_classify_mixed_rule_statuses PASSED [ 86%]
+TEST/BT3/test_t03_unsupported_rules.py::test_t03_engine_skips_unsupported_rules PASSED [ 91%]
+TEST/BT3/test_t03_unsupported_rules.py::test_t03_all_unsupported_rules_do_not_crash PASSED [ 95%]
+TEST/BT3/test_t03_unsupported_rules.py::test_t03_unsupported_file_does_not_block_valid_file PASSED [100%]
+
+============================== 23 passed in 0.51s ==============================
