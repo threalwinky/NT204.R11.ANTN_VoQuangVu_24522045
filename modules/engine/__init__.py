@@ -9,6 +9,7 @@ from .models import (
     SnortRule,
 )
 from .parser import RuleParser
+from .repository import RuleRepository
 
 __all__ = [
     "RuleHeader",
@@ -17,6 +18,7 @@ __all__ = [
     "RuleLoadWarning",
     "RuleOption",
     "RuleParser",
+    "RuleRepository",
     "RuleSource",
     "RuleValidationResult",
     "SnortRule",
