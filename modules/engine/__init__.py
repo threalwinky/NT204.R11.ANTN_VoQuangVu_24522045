@@ -1,4 +1,5 @@
 from .loader import RuleLoader
+from .matcher import RuleMatcher
 from .models import (
     RuleHeader,
     RuleLoadResult,
@@ -16,6 +17,7 @@ __all__ = [
     "RuleLoader",
     "RuleLoadResult",
     "RuleLoadWarning",
+    "RuleMatcher",
     "RuleOption",
     "RuleParser",
     "RuleRepository",
