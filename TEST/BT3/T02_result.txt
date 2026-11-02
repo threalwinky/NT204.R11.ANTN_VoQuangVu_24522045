@@ -1,0 +1,32 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.4, pytest-9.2.0, pluggy-1.7.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/winky/workspace/learning/NT204.R11.ANTN/homework/NT204.R11.ANTN_VoQuangVu_24522045
+plugins: typeguard-4.4.4
+collecting ... collected 23 items
+
+TEST/BT3/test_t02_invalid_rules.py::test_t02_reject_invalid_rule[missing-options] PASSED [  4%]
+TEST/BT3/test_t02_invalid_rules.py::test_t02_reject_invalid_rule[invalid-header-field-count] PASSED [  8%]
+TEST/BT3/test_t02_invalid_rules.py::test_t02_reject_invalid_rule[invalid-direction] PASSED [ 13%]
+TEST/BT3/test_t02_invalid_rules.py::test_t02_reject_invalid_rule[invalid-ipv4] PASSED [ 17%]
+TEST/BT3/test_t02_invalid_rules.py::test_t02_reject_invalid_rule[invalid-cidr] PASSED [ 21%]
+TEST/BT3/test_t02_invalid_rules.py::test_t02_reject_invalid_rule[port-out-of-range] PASSED [ 26%]
+TEST/BT3/test_t02_invalid_rules.py::test_t02_reject_invalid_rule[inverted-port-range] PASSED [ 30%]
+TEST/BT3/test_t02_invalid_rules.py::test_t02_reject_invalid_rule[missing-msg] PASSED [ 34%]
+TEST/BT3/test_t02_invalid_rules.py::test_t02_reject_invalid_rule[missing-sid] PASSED [ 39%]
+TEST/BT3/test_t02_invalid_rules.py::test_t02_reject_invalid_rule[missing-rev] PASSED [ 43%]
+TEST/BT3/test_t02_invalid_rules.py::test_t02_reject_invalid_rule[non-numeric-sid] PASSED [ 47%]
+TEST/BT3/test_t02_invalid_rules.py::test_t02_reject_invalid_rule[invalid-rev] PASSED [ 52%]
+TEST/BT3/test_t02_invalid_rules.py::test_t02_reject_invalid_rule[duplicate-sid-option] PASSED [ 56%]
+TEST/BT3/test_t02_invalid_rules.py::test_t02_reject_invalid_rule[unquoted-message] PASSED [ 60%]
+TEST/BT3/test_t02_invalid_rules.py::test_t02_reject_invalid_rule[missing-semicolon] PASSED [ 65%]
+TEST/BT3/test_t02_invalid_rules.py::test_t02_reject_invalid_rule[invalid-hex-content] PASSED [ 69%]
+TEST/BT3/test_t02_invalid_rules.py::test_t02_reject_invalid_rule[nocase-before-content] PASSED [ 73%]
+TEST/BT3/test_t02_invalid_rules.py::test_t02_reject_invalid_rule[conflicting-flow-direction] PASSED [ 78%]
+TEST/BT3/test_t02_invalid_rules.py::test_t02_invalid_rules_do_not_stop_parsing PASSED [ 82%]
+TEST/BT3/test_t02_invalid_rules.py::test_t02_engine_skips_invalid_and_keeps_valid_rules PASSED [ 86%]
+TEST/BT3/test_t02_invalid_rules.py::test_t02_duplicate_sid_does_not_stop_loading PASSED [ 91%]
+TEST/BT3/test_t02_invalid_rules.py::test_t02_missing_file_does_not_stop_other_files PASSED [ 95%]
+TEST/BT3/test_t02_invalid_rules.py::test_t02_all_invalid_rules_do_not_crash PASSED [100%]
+
+============================== 23 passed in 0.50s ==============================
