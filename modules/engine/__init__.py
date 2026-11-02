@@ -8,6 +8,7 @@ from .models import (
     RuleValidationResult,
     SnortRule,
 )
+from .parser import RuleParser
 
 __all__ = [
     "RuleHeader",
@@ -15,6 +16,7 @@ __all__ = [
     "RuleLoadResult",
     "RuleLoadWarning",
     "RuleOption",
+    "RuleParser",
     "RuleSource",
     "RuleValidationResult",
     "SnortRule",
