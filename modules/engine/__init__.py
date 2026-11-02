@@ -1,3 +1,7 @@
+from .detection import (
+    DetectionEvent,
+    DetectionEventGenerator,
+)
 from .evaluator import (
     EvaluationResult,
     EvaluationStats,
@@ -19,6 +23,8 @@ from .parser import RuleParser
 from .repository import RuleRepository
 
 __all__ = [
+    "DetectionEvent",
+    "DetectionEventGenerator",
     "EvaluationResult",
     "EvaluationStats",
     "RuleEvaluationEngine",
