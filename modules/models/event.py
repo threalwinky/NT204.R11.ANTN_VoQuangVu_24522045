@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+from base64 import b64encode
 from dataclasses import asdict, dataclass, field
 from typing import Any
+
 
 @dataclass
 class NormalizedIDSEvent:
@@ -25,6 +27,7 @@ class NormalizedIDSEvent:
 
     # Payload information
     payload_length: int = 0
+    payload: bytes = b""
 
     # Protocol-specific parsed data
     application_data: dict[str, Any] = field(default_factory=dict)
@@ -41,4 +44,9 @@ class NormalizedIDSEvent:
     flow_statistics: dict[str, Any] | None = None
 
     def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
+        record = asdict(self)
+        record["payload_base64"] = b64encode(
+            record.pop("payload")
+        ).decode("ascii")
+
+        return record
