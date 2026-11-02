@@ -1,0 +1,45 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.4, pytest-9.2.0, pluggy-1.7.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/winky/workspace/learning/NT204.R11.ANTN/homework/NT204.R11.ANTN_VoQuangVu_24522045
+plugins: typeguard-4.4.4
+collecting ... collected 36 items
+
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_match_matrix[empty-repository] PASSED [  2%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_match_matrix[one-rule-matches] PASSED [  5%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_match_matrix[two-content-rules-match] PASSED [  8%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_match_matrix[matching-and-nonmatching-content] PASSED [ 11%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_match_matrix[candidate-without-match] PASSED [ 13%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_match_matrix[port-index-filter] PASSED [ 16%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_match_matrix[protocol-index-filter] PASSED [ 19%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_match_matrix[header-ip-filter-after-index] PASSED [ 22%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_match_matrix[rule-without-content] PASSED [ 25%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_match_matrix[different-flow-requirements] PASSED [ 27%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_match_matrix[different-tcp-flags] PASSED [ 30%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_match_matrix[different-payload-length-conditions] PASSED [ 33%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_match_matrix[nocase-applies-per-rule] PASSED [ 36%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_match_matrix[all-conditions-match] PASSED [ 38%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_match_matrix[udp-event-isolation] PASSED [ 41%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_match_matrix[multiple-contents-one-rule-one-match] PASSED [ 44%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_match_matrix[wrong-ip-does-not-block-other-rules] PASSED [ 47%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_match_matrix[empty-payload-does-not-match] PASSED [ 50%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_match_matrix[empty-payload-still-matches-header-only] PASSED [ 52%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_match_matrix[invalid-preprocessed-event-skipped] PASSED [ 55%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_match_matrix[skip-policy-event] PASSED [ 58%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_match_matrix[error-event] PASSED [ 61%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_match_matrix[fallback-to-application-buffer] PASSED [ 63%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_match_matrix[multiple-contents-must-share-one-buffer] PASSED [ 66%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_match_matrix[overlapping-indexes-do-not-duplicate] PASSED [ 69%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_match_matrix[reverse-direction-only-bidirectional] PASSED [ 72%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_match_matrix[event-with-unindexed-port] PASSED [ 75%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_many_matching_rules_preserve_insertion_order PASSED [ 77%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_detected_content_details_independent_for_each_sid PASSED [ 80%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_repeated_substring_is_one_match_per_sid PASSED [ 83%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_bidirectional_indexes_do_not_duplicate_sid PASSED [ 86%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_forward_reverse_have_different_match_sets PASSED [ 88%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_evaluate_many_aggregates_stats_by_event PASSED [ 91%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_reset_stats_keeps_repository_and_rules PASSED [ 94%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_many_rules_same_packet_no_lost_matches PASSED [ 97%]
+TEST/BT3/test_t13_multiple_rule_matches.py::test_t13_no_candidates_no_matches_no_detections PASSED [100%]
+
+============================== 36 passed in 0.07s ==============================
